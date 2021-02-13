@@ -1,0 +1,54 @@
+{
+  "name": "BoomBoom",
+  "version": "1.1.0",
+  "description": "",
+  "main": "./src/background.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "start": "electron .",
+    "server": "webpack-dev-server",
+    "dist": "electron-builder --dir --win --x64"
+  },
+  "build": {
+    "appId": "com.genshin.jumpydumpty",
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "win": {
+      "icon": "src/assets/red.ico",
+      "target": [
+        "nsis",
+        "zip"
+      ]
+    }
+  },
+  "keywords": [],
+  "author": "ChanIok",
+  "license": "ISC",
+  "devDependencies": {
+    "copy-webpack-plugin": "^7.0.0",
+    "css-loader": "^5.0.1",
+    "electron": "^8.5.0",
+    "file-loader": "^6.2.0",
+    "less": "^4.1.1",
+    "less-loader": "^6.2.0",
+    "node-loader": "^1.0.2",
+    "vue-loader": "^15.9.6",
+    "vue-template-compiler": "^2.6.12",
+    "webpack": "^5.19.0",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.2"
+  },
+  "dependencies": {
+    "ant-design-vue": "^1.7.2",
+    "axios": "^0.21.1",
+    "style-loader": "^2.0.0",
+    "vkeys": "^1.2.0",
+    "vue": "^2.6.12",
+    "vue-router": "^3.5.1"
+  }
+}
