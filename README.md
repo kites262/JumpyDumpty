@@ -2,7 +2,6 @@
 
 ## 原神小工具箱
 ### Electron + Vue + AntDesign
-#
 ## 功能：  
 目前只完成的资源地图功能
 
@@ -14,7 +13,6 @@
 已打包，解压直接运行：https://wws.lanzous.com/iCg4eln3zna
 密码:aghc
 
-#
 ## 更新日志  
 ### v1.0.0
     初始版本
