@@ -1,14 +1,14 @@
 <template>
     <div>
         <a-layout id="my-layout">
-            <a-layout-sider  class="first-sider-color" v-model="collapsed" :trigger="null" collapsible>
+            <a-layout-sider class="first-sider-color" v-model="collapsed" :trigger="null" collapsible>
                 <!-- <div class="logo" /> -->
-                <a-layout-header class="first-sider-color"  style=" padding: 0">
+                <a-layout-header class="first-sider-color" style=" padding: 0">
                     <a-icon class="trigger" :type="collapsed ? 'menu-unfold' : 'menu-fold'"
                         @click="() => (collapsed = !collapsed)" />
                 </a-layout-header>
 
-                <a-menu  class="first-sider-color" theme="dark" mode="inline" :default-selected-keys="['3']">
+                <a-menu class="first-sider-color" theme="dark" mode="inline" :default-selected-keys="['4']">
                     <a-menu-item key="1" @click="ClickMenu(1)">
                         <a-icon type="team" />
                         <!-- <router-link to="roleindex">角色界面</router-link> -->
@@ -24,6 +24,11 @@
                         <!-- <router-link to="mapset">地图设置</router-link> -->
                         <span>快捷地图</span>
                     </a-menu-item>
+                    <a-menu-item key="4" @click="ClickMenu(4)">
+                        <a-icon type="search" />
+                        <!-- <router-link to="mapset">地图设置</router-link> -->
+                        <span>角色查询</span>
+                    </a-menu-item>
                 </a-menu>
             </a-layout-sider>
             <a-layout>
@@ -37,7 +42,6 @@
 
 </template>
 <script>
-   
     export default {
         data() {
             return {
@@ -58,15 +62,19 @@
                         break;
                     case 3:
                         this.$router.push('/gamemap')
+                        break;
+                    case 4:
+                        this.$router.push('/infoquery')
                 }
             }
         }
     };
 </script>
 <style scoped>
-    .first-sider-color{
+    .first-sider-color {
         background-color: #ce3c3c;
     }
+
     #my-layout {
         height: 100%;
     }

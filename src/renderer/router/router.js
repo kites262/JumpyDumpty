@@ -1,13 +1,18 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+
 import LayOut from '../components/LayOut.vue'
 import MapSet from '../components/GameMap.vue'
+
 import DamageCal from '../components/DamageCal.vue'
 import RoleIndex from '../components/RoleIndex.vue'
+import InfoQuery from '../components/InfoQuery.vue'
 
 import View from '../components/gamemap/View.vue'
 import Setting from '../components/gamemap/Setting.vue'
 import Instructions from '../components/gamemap/Instructions.vue'
+
+import Overview from '../components/infoquery/Overview.vue'
 
 // 注册路由
 Vue.use(VueRouter)
@@ -28,6 +33,8 @@ const routes = [
                 path: 'roleindex',
                 component: RoleIndex
             },
+
+           
             {
                 // 当 /user/:id/profile 匹配成功，
                 // UserProfile 会被渲染在 User 的 <router-view> 中
@@ -51,6 +58,16 @@ const routes = [
                     component: Instructions
                 }
             ]
+            },
+            {
+                // 当 /user/:id/profile 匹配成功，
+                // UserProfile 会被渲染在 User 的 <router-view> 中
+                path: 'infoquery',
+                component: InfoQuery,
+                children:[{
+                    path:'overview',
+                    component:Overview
+                }]
             },
         ]
     },

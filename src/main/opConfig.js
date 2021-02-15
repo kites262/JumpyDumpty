@@ -64,58 +64,7 @@ function writeConfig(mapConfig) {
 
 }
 
-// function writeUrl(url) {
-//     let dataConfig = {}
-//     fs.readFile(path.resolve(__dirname, '../../../../config/mapconfig.json'), function (err, data) {
-//         if (err) {
-//             throw err;
-//         } else {
-//             dataConfig = JSON.parse(data.toString())
-//             // console.log(dataLink)
-//             dataConfig.link = url
 
-
-//             dataConfig = JSON.stringify(dataConfig, null, 4)
-//             fs.writeFile(path.resolve(__dirname, '../../../../config/mapconfig.json'), dataConfig, (err) => {
-//                 if (err) throw err
-//             })
-//         }
-//     });
-// }
-
-// function writeIfHotKey(ifValue) {
-//     let dataConfig = {}
-//     fs.readFile(path.resolve(__dirname, '../../../../config/mapconfig.json'), function (err, data) {
-//         if (err) {
-//             throw err;
-//         } else {
-//             dataConfig = JSON.parse(data.toString())
-//             // console.log(dataLink)
-//             dataConfig.ifHotKey = ifValue
-//             dataConfig = JSON.stringify(dataConfig, null, 4)
-//             fs.writeFile(path.resolve(__dirname, '../../../../config/mapconfig.json'), dataConfig, (err) => {
-//                 if (err) throw err
-//             })
-//         }
-//     });
-// }
-
-// function writeIfDelay(ifValue) {
-//     let dataConfig = {}
-//     fs.readFile(path.resolve(__dirname, '../../../../config/mapconfig.json'), function (err, data) {
-//         if (err) {
-//             throw err;
-//         } else {
-//             dataConfig = JSON.parse(data.toString())
-//             // console.log(dataLink)
-//             dataConfig.ifDelay = ifValue
-//             dataConfig = JSON.stringify(dataConfig, null, 4)
-//             fs.writeFile(path.resolve(__dirname, '../../../../config/mapconfig.json'), dataConfig, (err) => {
-//                 if (err) throw err
-//             })
-//         }
-//     });
-// }
 module.exports = {
     initConfig,
     loadConfig,

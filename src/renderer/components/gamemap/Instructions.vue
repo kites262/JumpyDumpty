@@ -3,7 +3,7 @@
         <span class="title">介绍</span>
 
         <span class="note">
-            一个快捷的资源地图工具  /未完工
+            一个快捷的资源地图工具 /未完工
 
         </span>
         <span class="note">
@@ -11,16 +11,29 @@
 
         </span>
         <a-divider />
+
+        <!-- <a-button type="primary" @click="clickbutton">
+            123
+        </a-button> -->
     </div>
 </template>
 
 <script>
+    // const {
+    //     sendAxios
+    // } = require('../../../main/getUserInfo.js')
+    // import sendAxios from '../../../main/getUserInfo.js'
     export default {
         data() {
             return {
 
             }
         },
+        methods: {
+            // clickbutton() {
+            //     sendAxios()
+            // }
+        }
     };
 </script>
 

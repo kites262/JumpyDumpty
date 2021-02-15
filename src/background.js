@@ -17,6 +17,10 @@ const {
     writeConfig,
 } = require('./main/opConfig')
 
+const {
+    getUserInfo
+} = require('./main/getInfo')
+
 
 
 
@@ -71,7 +75,13 @@ function handleIPC() {
         shotCutRegister()
         // writeIfDelay(data)
     })
+    ipcMain.on('getInfo', (e,data) => {
+        console.log(data)
+        getUserInfo(data,()=>{
+            e.reply('getInfoFinished')
+        })
 
+    })
 }
 
 function createWindow() {
@@ -79,7 +89,7 @@ function createWindow() {
     win = new BrowserWindow({
         width: 1200,
         height: 800,
-        frame: false,
+        // frame: false,
         webPreferences: {
             nodeIntegration: true,
             webviewTag: true

@@ -42,7 +42,7 @@ module.exports = {
                         modifyVars: {
                             'primary-color': '#f08c8c',
                             'link-color': '#ee3f4d',
-                            'border-radius-base': '2px',
+                            'border-radius-base': '0px',
                         },
                         javascriptEnabled: true,
                     },

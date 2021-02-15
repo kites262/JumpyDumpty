@@ -31,6 +31,7 @@
     }
     .icon{
         font-size:0;
+        /* height: 100% */
     }
     .icon span{
         font-size:14px;
@@ -51,7 +52,7 @@
 </style>
 
 <script>
-    import {remote} from 'electron'
+    // import {remote} from 'electron'
 
     export default {
         name: 'myTitle',
