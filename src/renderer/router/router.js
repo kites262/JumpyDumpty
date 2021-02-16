@@ -13,6 +13,7 @@ import Setting from '../components/gamemap/Setting.vue'
 import Instructions from '../components/gamemap/Instructions.vue'
 
 import Overview from '../components/infoquery/Overview.vue'
+import CharDetail from '../components/infoquery/CharDetail.vue'
 
 // 注册路由
 Vue.use(VueRouter)
@@ -26,7 +27,7 @@ const routes = [
         path: '/',
         name: 'layout',
         component: LayOut,
-        redirect:'gamemap',
+        redirect: 'gamemap',
         children: [{
                 // 当 /user/:id/profile 匹配成功，
                 // UserProfile 会被渲染在 User 的 <router-view> 中
@@ -34,7 +35,7 @@ const routes = [
                 component: RoleIndex
             },
 
-           
+
             {
                 // 当 /user/:id/profile 匹配成功，
                 // UserProfile 会被渲染在 User 的 <router-view> 中
@@ -46,27 +47,32 @@ const routes = [
                 // UserProfile 会被渲染在 User 的 <router-view> 中
                 path: 'gamemap',
                 component: MapSet,
-                redirect:'gamemap/setting',
-                children:[{
-                    path:'view',
+                redirect: 'gamemap/setting',
+                children: [{
+                    path: 'view',
                     component: View
-                },{
-                    path:'setting',
+                }, {
+                    path: 'setting',
                     component: Setting
-                },{
-                    path:'instructions',
+                }, {
+                    path: 'instructions',
                     component: Instructions
-                }
-            ]
+                }]
             },
             {
                 // 当 /user/:id/profile 匹配成功，
                 // UserProfile 会被渲染在 User 的 <router-view> 中
                 path: 'infoquery',
                 component: InfoQuery,
-                children:[{
-                    path:'overview',
-                    component:Overview
+                redirect: 'infoquery/chardetail',
+                children: [{
+                    path: 'overview',
+                    component: Overview
+                }, {
+                    // path: 'chardetail/:id',
+                    path: 'chardetail',
+                    component: CharDetail,
+                    // props: true,
                 }]
             },
         ]
@@ -86,7 +92,7 @@ const router = new VueRouter({
 const originalPush = VueRouter.prototype.push
 //修改原型对象中的push方法
 VueRouter.prototype.push = function push(location) {
-   return originalPush.call(this, location).catch(err => err)
+    return originalPush.call(this, location).catch(err => err)
 }
 
 //抛出这个这个实例对象方便外部读取以及访问

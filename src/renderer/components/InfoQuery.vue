@@ -18,16 +18,19 @@
                         <a-icon type="setting" />
                         数据总览
                     </a-menu-item>
-                    
+
                     <a-sub-menu key="sub1">
                         <span slot="title">
                             <a-icon type="team" /><span> TA的角色</span></span>
-                        <a-menu-item v-for="(role,i) in characters">
+                        <a-menu-item v-for="(role,i) in characters" @click="getDetail(role.id)" :key="i"
+                            style="height: 64px; padding-left: 40px; position: relative;">
 
-                            <a-avatar class="char-img" :src="role.image"
+                            <a-avatar class="char-img" :src="role.image" :size="48"
                                 :style="role.rarity==4?'background-color: #876ab1;':'background-color: #ca884e;'" />
                             <div class="char-name"> {{role.name}}</div>
+                            <div class="char-fetter"> 好感度：{{role.fetter}}</div>
 
+                            <div class="char-element"> {{role.element}}</div>
                             <div class="char-level"> Lv.{{role.level}}</div>
                         </a-menu-item>
 
@@ -70,7 +73,7 @@
                         "id": 10000023,
                         "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Xiangling.png",
                         "name": "香菱",
-                        "element": "Pyro",
+                        "element": "火",
                         "fetter": 6,
                         "level": 80,
                         "rarity": 4
@@ -79,7 +82,7 @@
                         "id": 10000034,
                         "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Noel.png",
                         "name": "诺艾尔",
-                        "element": "Geo",
+                        "element": "岩",
                         "fetter": 6,
                         "level": 80,
                         "rarity": 4
@@ -87,7 +90,7 @@
                         "id": 10000022,
                         "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Venti.png",
                         "name": "温迪",
-                        "element": "Anemo",
+                        "element": "风",
                         "fetter": 1,
                         "level": 40,
                         "rarity": 5
@@ -101,8 +104,11 @@
         methods: {
             getInfo(value) {
                 ipcRenderer.send("getInfo", value)
+            },
+            getDetail(charID) {
+                this.$router.push({path:'/infoquery/chardetail'})
+                // this.$router.push({path:'/infoquery/chardetail/'+charID})
             }
-
         }
     };
 </script>
@@ -122,24 +128,52 @@
     }
 
     .char-img {
-        float: left;
-        
+        /* float: left; */
+        position: absolute;
+        top: 10px;
+
     }
 
     .char-name {
+        font-size: 16px;
+        position: absolute;
+        top: 2px;
+        left: 100px;
         font-weight: 500;
         width: 80px;
         height: 40px;
-        float: left;
-        margin-left: 15px;
     }
 
     .char-level {
+        font-size: 14px;
         font-weight: 500;
         text-align: center;
         width: 60px;
         height: 40px;
-        float: right;
+        position: absolute;
+        top: 30px;
+        left: 190px;
+    }
+
+    .char-fetter {
+        font-weight: 300;
+        font-size: 12px;
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        top: 30px;
+        left: 100px;
+    }
+
+    .char-element {
+        font-size: 13px;
+        text-align: right;
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        top: 0px;
+        left: 195px;
+
     }
 
     #my-title {
