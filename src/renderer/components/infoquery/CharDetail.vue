@@ -1,110 +1,179 @@
 <template>
     <div id="third-content-dt">
-        <div id="char-img-bg" :style="{backgroundImage: 'url(' + charImg.bg + ')'}">
+        <div id="constellations-list-wrapper">
+
+            <div class="constellations-list-item" v-for="(item,i) in character.constellations" :key="i">
+
+                <a-popover :title="item.name" placement="right">
+                    <template slot="content">
+                        <div style="max-width: 400px;">
+                            {{item.effect}}
+                        </div>
+
+                    </template>
+
+
+                    <div class="constellations-list-item-img">
+                        <a-avatar shape="circle" :size="52" :src="item.icon"
+                            style="background-color: inherit;position: absolute;" />
+                        <a-avatar shape="circle" :size="52" icon="lock" v-if="!item.is_actived"
+                            style="background-color: inherit;position: absolute;opacity: 0.8;" />
+                    </div>
+                    <!-- <div class="constellations-list-item">
+        {{item.name}}
+        </div> -->
+                </a-popover>
+            </div>
 
         </div>
-        <div id="char-img-element" :style="{backgroundImage: 'url(' + charImg.element + ')'}">
+
+
+        <div id="char-img-bg" :style="{backgroundImage: 'url(' + character.image + ')'}">
+            <!-- Electro -->
+        </div>
+        <div id="char-img-element" :style="{backgroundImage: 'url(' + charImg[this.character.element] + ')'}">
 
         </div>
         <div id="char-wrapper">
             <a-card id="char-card" hoverable>
 
                 <img id="char-card-icon" slot="cover" alt="example" :src="character.icon" />
+                <div id="char-card-container" style="position: relative;">
+                    <div id="char-card-title">
+                        {{character.name}}
+                    </div>
+
+                    <a-icon type="star" theme="twoTone" two-tone-color="orange" v-for="(item,i) in character.rarity"
+                        :key="i" />
+                    <div id="char-card-right">
+                        <div id="char-card-element">
+                            {{this.charELement}}
+                        </div>
+                        <div id="char-card-fetter">
+                            好感度：{{character.fetter}}
+                        </div>
+                        <div id="char-card-level">
+                            等级：<span style="font-size: 16px;font-weight: 500;">
+                                Lv.{{character.level}}
+                            </span>
 
 
+                        </div>
 
-                <a-card-meta :title="character.name" description="">
-                </a-card-meta>
-                <a-icon type="star" theme="twoTone" two-tone-color="#FF8000" v-for="(item,i) in character.rarity"
-                    key="i" />
-                <p>222</p>
+                    </div>
+
+                </div>
+
             </a-card>
 
+            <div id="list-wrapper">
 
-            <div id="grid-cards-wrapper" style="background-color: #ececec; padding: 20px;">
-                <a-row :gutter="[16,16]" :type="flex">
-                    <a-col :span="8">
 
-                        <a-popover title="武器描述">
-                            <template slot="content">
-                                <div class="grid-container-wrapper">
-                                    <div class="grid-container">
-                                        {{character.weapon.desc}}
-                                    </div>
+                <div class="list-item-wrapper">
+                    <span class="big-title">装备详情</span>
+
+                    <span class="title">武器</span>
+                    <a-popover title="武器描述" placement="left">
+                        <template slot="content">
+                            <div class="grid-container-wrapper">
+                                <div class="grid-container">
+                                    {{character.weapon.desc}}
                                 </div>
-                            </template>
+                            </div>
+                        </template>
 
-                            <a-card title="武器" :bordered="false" hoverable type="primary">
-                                <div class="grid-cards-header-wrapper">
-                                    <div class="grid-icon">
-                                        <a-avatar shape="square" :size="64" :src="character.weapon.icon"
-                                            style="background-color: rgb(248, 248, 248);align-self: center;" />
+                        <div class="list-item">
+                            <div class="list-header-wrapper">
+
+                                <div class="list-img">
+                                    <a-avatar shape="square" :size="64" :src="character.weapon.icon"
+                                        style="background-color: rgb(248, 248, 248);align-self: center;" />
+                                </div>
+                                <div class="list-header">
+                                    <div class="list-header-name">
+                                        {{character.weapon.name}}
                                     </div>
-                                    <div class="grid-cards-header">
-                                        <div class="grid-title-name">
-                                            {{character.weapon.name}}
-                                        </div>
-                                        <div class="grid-title-level" style="display: inline-block;margin-right: 5px;">
-                                            Lv.{{character.weapon.level}}
-                                        </div>
-                                        <div class="grid-title-explain" style="display: inline-block;">
+                                    <div class="list-header-stars">
+                                        <a-icon type="star" theme="twoTone" two-tone-color="#FF8000"
+                                            v-for="(item,i) in character.weapon.rarity" :key="i" />
+                                    </div>
+                                    <div class="list-header-right">
+                                        <div class="list-header-explain" style="display: inline-block;">
                                             精炼{{character.weapon.affix_level}}阶
                                         </div>
-                                        <div class="grid-title-stars">
-                                            <a-icon type="star" theme="twoTone" two-tone-color="#FF8000"
-                                                v-for="(item,i) in character.weapon.rarity" key="i" />
+                                        <div class="list-header-level"
+                                            style="display: inline-block;margin-left: 15px; ">
+                                            Lv.{{character.weapon.level}}
                                         </div>
                                     </div>
+
                                 </div>
+                            </div>
+                            <div class="list-container">
 
-                            </a-card>
-                        </a-popover>
+                            </div>
+                        </div>
+                    </a-popover>
+
+                    <a-divider />
+
+                </div>
 
 
-                    </a-col>
 
-                    <a-col :span="8" v-for="(item,i) in character.reliquaries" key="i">
-                        <a-popover :title="item.set.name" placement="topLeft" arrow-point-at-center>
-                            <template slot="content">
-                                <div class="grid-container-wrapper">
-                                    <div class="grid-container">
-                                        <div v-for="(it,i) in item.set.affixes" key="i">
-                                             {{it.activation_number}}件套：
-                                             {{it.effect}}
-                                        </div>
+
+
+
+
+                <div class="list-item-wrapper" v-for="(item,i) in character.reliquaries" :key="i">
+
+
+                    <span class="title">{{item.pos_name}}</span>
+                    <a-popover :title="item.set.name" placement="left">
+                        <template slot="content">
+                            <div class="grid-container-wrapper">
+                                <div class="grid-container" style="max-width: 400px;">
+                                    <div v-for="(it,i) in item.set.affixes" :key="i">
+                                        {{it.activation_number}}件套：
+                                        {{it.effect}}
                                     </div>
                                 </div>
-                            </template>
+                            </div>
+                        </template>
 
-                        <a-card :title="item.pos_name" :bordered="false" hoverable>
-                            <div class="grid-cards-header-wrapper">
-                                <div class="grid-icon">
+                        <div class="list-item">
+                            <div class="list-header-wrapper">
+
+                                <div class="list-img">
                                     <a-avatar shape="square" :size="64" :src="item.icon"
                                         style="background-color: rgb(248, 248, 248);align-self: center;" />
                                 </div>
-                                <div class="grid-cards-header">
-                                    <div class="grid-title-name">
+                                <div class="list-header">
+                                    <div class="list-header-name">
                                         {{item.name}}
                                     </div>
-                                    <div class="grid-title-level" style="display: inline-block;margin-right: 5px;">
-                                        Lv.{{item.level}}
-                                    </div>
-
-                                    <div class="grid-title-stars">
+                                    <div class="list-header-stars">
                                         <a-icon type="star" theme="twoTone" two-tone-color="#FF8000"
-                                            v-for="(star,i) in item.rarity" key="i" />
+                                            v-for="(item,i) in item.rarity" :key="i" />
+                                    </div>
+                                    <div class="list-header-right">
+                                        <div class="list-header-level" style="display: inline-block; ">
+                                            Lv.{{item.level}}
+                                        </div>
                                     </div>
 
                                 </div>
+                            </div>
+                            <div class="list-container">
 
                             </div>
-        
-                             </a-card>
-                        </a-popover>
+                        </div>
+                    </a-popover>
 
-                    </a-col>
+                    <a-divider />
 
-                </a-row>
+                </div>
+
             </div>
 
 
@@ -113,6 +182,29 @@
     </div>
 </template>
 <style scoped>
+    .big-title {
+        height: 35px;
+        font-size: 28px;
+        font-weight: 500;
+        margin-bottom: 28px;
+        display: block;
+        overflow: hidden;
+    }
+
+    .title {
+        font-size: 20px;
+        font-weight: 500;
+        margin-bottom: 20px;
+        display: inline-block;
+    }
+
+    .explain {
+        font-weight: 300;
+        font-size: 13px;
+        margin-bottom: 28px;
+        display: block;
+    }
+
     #third-content-dt {
         position: relative;
         width: 100%;
@@ -121,16 +213,44 @@
         /* z-index: -1; */
     }
 
+    #constellations-list-wrapper {
+
+        position: absolute;
+        box-sizing: border-box;
+        padding: 10px;
+        z-index: 1;
+        height: 100%;
+        background-color: rgba(245, 245, 245, 0.5);
+        overflow: hidden;
+    }
+
+    .constellations-list-item-img {
+        width: 52px;
+        height: 52px;
+        background-color: rgb(150, 150, 150);
+        cursor: pointer;
+        position: relative;
+    }
+
+    .constellations-list-item-img:hover {
+        background-color: rgb(224, 101, 101);
+    }
+
+    .constellations-list-item {
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
     #char-img-bg {
         width: 100%;
         height: 100%;
-        background-position: 60% top;
-        background-size: cover;
+        background-position: calc(45% + 50px) top;
+        background-size: contain;
         position: absolute;
         right: 0px;
         bottom: 0px;
         background-repeat: no-repeat;
-        /* z-index: -1; */
+        /* z-index: 2; */
         opacity: 0.3;
     }
 
@@ -139,7 +259,9 @@
         height: 45%;
         background-size: contain;
         background-repeat: no-repeat;
-        position: absolute
+        position: absolute;
+        bottom: 10px;
+        left: 80px;
     }
 
     #char-wrapper {
@@ -152,51 +274,135 @@
     }
 
     #char-card {
-        position: relative;
-        width: 20%;
-        min-width: 200px;
-        max-width: 280px;
-        /* height: 30%; */
-        left: 10%;
-        top: 5%;
-    }
-
-    #grid-cards-wrapper {
         position: absolute;
-        bottom: 5%;
-        left: 10%;
+        width: 20%;
+        min-width: 220px;
+        max-width: 300px;
+        /* height: 30%; */
+        left: 12%;
+        top: 5%;
+        z-index: 2;
+    }
+
+    #char-card-title {
+        margin-bottom: 15px;
+    }
+
+    #char-card-element {
+        font-size: 16px;
+        margin-bottom: 3px;
+    }
+
+    #char-card-right {
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        text-align: right;
+    }
+
+    #char-card-title {
+        font-size: 24px;
+        font-weight: 500;
+    }
+
+    #list-wrapper {
+        width: 60%;
+        max-width: 450px;
+        min-width: 300px;
+        height: 100%;
+        position: absolute;
+        right: 0px;
+        background-color: rgba(255, 255, 255, 0.9);
         /* display: flex; */
+        padding: 20px;
+        padding-left: 40px;
+        padding-right: 40px;
+        /* flex-direction: column; */
+        overflow: auto;
+    }
+
+    #list-wrapper::-webkit-scrollbar {
+        width: 8px;
+        /*高宽分别对应横竖滚动条的尺寸*/
+        height: 1px;
+    }
+
+
+
+    #list-wrapper::-webkit-scrollbar-thumb {
+        /*滚动条里面小方块*/
+        border-radius: 10px;
+        box-shadow: inset 0 0 5px rgba(255, 151, 151, 0.2);
+        background: #ffababea;
 
     }
 
-    .grid-cards-header-wrapper {
+    #list-wrapper::-webkit-scrollbar-track {
+        /*滚动条里面轨道*/
+        box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        background: #EDEDED;
+
+    }
+
+    .list-item {
+        cursor: pointer;
+        height: 64px;
+    }
+
+
+    .list-item:hover {
+        color: #f08c8c;
+        background-color: rgba(255, 225, 225, 0.05);
+    }
+
+
+
+    .list-header-wrapper {
         display: flex;
         overflow: hidden;
+        position: relative;
+        max-height: 65px;
 
     }
 
-    .grid-cards-header {
-        margin-left: 10px;
-        min-width: 64px;
+    .list-header {
+        margin-left: 20px;
     }
 
-    .grid-title-name {
+    .list-header-right {
+        width: 180px;
+        height: 24px;
+        position: absolute;
+        right: 10%;
+        top: 40px;
+        text-align: right;
+    }
+
+
+
+
+    .list-header-name {
         font-size: 16px;
 
     }
 
-    .grid-title-level {
-        font-size: 14px;
+    .list-header-level {
+        font-size: 18px;
         font-weight: 500;
     }
 
-    .grid-title-explain {
-        font-size: 12px;
+    .list-header-explain {
+        font-size: 14px;
     }
 
-    .grid-icon {
-        display: flex;
+    .list-header-stars {
+        margin-top: 20px;
     }
+
+
+
+
 
 
 </style>
@@ -207,6 +413,7 @@
     export default {
         // props:['charid'],
         mounted() {
+
             // this.getData()
             // 正确的初始化方式
         },
@@ -220,194 +427,61 @@
         },
         data() {
             return {
+                charID: this.$route.params.id,
+                charELement: '',
                 charImg: {
-                    bg: 'https://uploadstatic.mihoyo.com/contentweb/20200315/2020031516372312969.png',
-                    element: 'https://uploadstatic.mihoyo.com/contentweb/20200315/2020031516374761741.png',
+                    None: "",
+                    Anemo: "https://uploadstatic.mihoyo.com/contentweb/20190926/2019092620142687125.png",
+                    Pyro: "https://uploadstatic.mihoyo.com/contentweb/20190926/2019092620153999417.png",
+                    Electro: 'https://uploadstatic.mihoyo.com/contentweb/20190926/2019092620184031492.png',
+                    Geo: "https://uploadstatic.mihoyo.com/contentweb/20201216/2020121617553582444.png",
+                    Cryo: "https://uploadstatic.mihoyo.com/contentweb/20201106/2020110614341398595.png",
+                    Hydro: "https://uploadstatic.mihoyo.com/contentweb/20200324/2020032419033772019.png",
+                    Dendro: "",
                 },
-                character: {
-                    "id": 10000023,
-                    "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_image/UI_AvatarIcon_Xiangling@2x.png",
-                    "icon": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Xiangling.png",
-                    "name": "香菱",
-                    "element": "Pyro",
-                    "fetter": 6,
-                    "level": 80,
-                    "rarity": 4,
-                    "weapon": {
-                        "id": 13402,
-                        "name": "试作星镰",
-                        "icon": "https://upload-bbs.mihoyo.com/game_record/genshin/equip/UI_EquipIcon_Pole_Proto.png",
-                        "type": 13,
-                        "rarity": 4,
-                        "level": 80,
-                        "promote_level": 5,
-                        "type_name": "长柄武器",
-                        "desc": "黑岩厂中秘藏的古老钩枪。锋芒上点点的闪光有如夜空稀星。",
-                        "affix_level": 2
-                    },
-                    "reliquaries": [{
-                            "id": 89442,
-                            "name": "夏祭之花",
-                            "icon": "https://upload-bbs.mihoyo.com/game_record/genshin/equip/UI_RelicIcon_15015_4.png",
-                            "pos": 1,
-                            "rarity": 4,
-                            "level": 12,
-                            "set": {
-                                "id": 2150151,
-                                "name": "逆飞的流星",
-                                "affixes": [{
-                                        "activation_number": 2,
-                                        "effect": "护盾强效提高35%。"
-                                    },
-                                    {
-                                        "activation_number": 4,
-                                        "effect": "处于护盾庇护下时，额外获得40%普通攻击和重击伤害加成。"
-                                    }
-                                ]
-                            },
-                            "pos_name": "生之花"
-                        },
-                        {
-                            "id": 59422,
-                            "name": "流放者之羽",
-                            "icon": "https://upload-bbs.mihoyo.com/game_record/genshin/equip/UI_RelicIcon_10009_2.png",
-                            "pos": 2,
-                            "rarity": 4,
-                            "level": 12,
-                            "set": {
-                                "id": 2100091,
-                                "name": "流放者",
-                                "affixes": [{
-                                        "activation_number": 2,
-                                        "effect": "元素充能效率提高20%。"
-                                    },
-                                    {
-                                        "activation_number": 4,
-                                        "effect": "施放元素爆发后，每2秒为队伍中所有角色（不包括自己）恢复2点元素能量。该效果持续6秒，无法叠加。"
-                                    }
-                                ]
-                            },
-                            "pos_name": "死之羽"
-                        },
-                        {
-                            "id": 57453,
-                            "name": "教官的怀表",
-                            "icon": "https://upload-bbs.mihoyo.com/game_record/genshin/equip/UI_RelicIcon_10007_5.png",
-                            "pos": 3,
-                            "rarity": 4,
-                            "level": 9,
-                            "set": {
-                                "id": 2100071,
-                                "name": "教官",
-                                "affixes": [{
-                                        "activation_number": 2,
-                                        "effect": "元素精通提高80点。"
-                                    },
-                                    {
-                                        "activation_number": 4,
-                                        "effect": "触发元素反应后，队伍中所有角色的元素精通提高120点，持续8秒。"
-                                    }
-                                ]
-                            },
-                            "pos_name": "时之沙"
-                        },
-                        {
-                            "id": 82413,
-                            "name": "染血骑士之杯",
-                            "icon": "https://upload-bbs.mihoyo.com/game_record/genshin/equip/UI_RelicIcon_15008_1.png",
-                            "pos": 4,
-                            "rarity": 4,
-                            "level": 3,
-                            "set": {
-                                "id": 2150081,
-                                "name": "染血的骑士道",
-                                "affixes": [{
-                                        "activation_number": 2,
-                                        "effect": "造成的物理伤害提高25%。"
-                                    },
-                                    {
-                                        "activation_number": 4,
-                                        "effect": "击败敌人后的10秒内，施放重击时不消耗体力，且重击造成的伤害提升50%。"
-                                    }
-                                ]
-                            },
-                            "pos_name": "空之杯"
-                        },
-                        {
-                            "id": 83432,
-                            "name": "祭火礼冠",
-                            "icon": "https://upload-bbs.mihoyo.com/game_record/genshin/equip/UI_RelicIcon_15009_3.png",
-                            "pos": 5,
-                            "rarity": 4,
-                            "level": 16,
-                            "set": {
-                                "id": 2150090,
-                                "name": "祭火之人",
-                                "affixes": [{
-                                    "activation_number": 1,
-                                    "effect": "受到的火元素附着效果的持续时间减少40%。"
-                                }]
-                            },
-                            "pos_name": "理之冠"
-                        }
-                    ],
-                    "constellations": [{
-                            "id": 231,
-                            "name": "外酥里嫩",
-                            "icon": "https://upload-bbs.mihoyo.com/game_record/genshin/constellation_icon/UI_Talent_S_Xiangling_01.png",
-                            "effect": "受到锅巴攻击的敌人，<color=#FF9999FF>火元素抗性</color>降低15%，持续6秒。",
-                            "is_actived": true,
-                            "pos": 1
-                        },
-                        {
-                            "id": 232,
-                            "name": "大火宽油",
-                            "icon": "https://upload-bbs.mihoyo.com/game_record/genshin/constellation_icon/UI_Talent_S_Xiangling_02.png",
-                            "effect": "普通攻击的最后一击会对敌人施加持续2秒的内爆效果，持续时间结束时会发生爆炸，造成75%攻击力的<color=#FF9999FF>火元素范围伤害</color>。",
-                            "is_actived": true,
-                            "pos": 2
-                        },
-                        {
-                            "id": 233,
-                            "name": "武火急烹",
-                            "icon": "https://upload-bbs.mihoyo.com/game_record/genshin/constellation_icon/UI_Talent_U_Xiangling_02.png",
-                            "effect": "<color=#FFD780FF>旋火轮</color>的技能等级提高3级。\\n至多提升至15级。",
-                            "is_actived": true,
-                            "pos": 3
-                        },
-                        {
-                            "id": 234,
-                            "name": "文火慢煨",
-                            "icon": "https://upload-bbs.mihoyo.com/game_record/genshin/constellation_icon/UI_Talent_S_Xiangling_03.png",
-                            "effect": "<color=#FFD780FF>旋火轮</color>的持续时间延长40%。",
-                            "is_actived": true,
-                            "pos": 4
-                        },
-                        {
-                            "id": 235,
-                            "name": "锅巴凶猛",
-                            "icon": "https://upload-bbs.mihoyo.com/game_record/genshin/constellation_icon/UI_Talent_U_Xiangling_01.png",
-                            "effect": "<color=#FFD780FF>锅巴出击</color>的技能等级提高3级。\\n至多提升至15级。",
-                            "is_actived": false,
-                            "pos": 5
-                        },
-                        {
-                            "id": 236,
-                            "name": "大龙卷旋火轮",
-                            "icon": "https://upload-bbs.mihoyo.com/game_record/genshin/constellation_icon/UI_Talent_S_Xiangling_04.png",
-                            "effect": "<color=#FFD780FF>旋火轮</color>持续期间，队伍中所有角色获得15%<color=#FF9999FF>火元素伤害加成</color>。",
-                            "is_actived": false,
-                            "pos": 6
-                        }
-                    ]
-                },
-                dataLink: "",
+                character: {},
             }
         },
         mounted() {
-            // this.getLink()
+            this.getData()
         },
         methods: {
+            getData() {
+                axios.get('../../../../data/charactersInfo.json').then(res => {
+                    if (res.status === 200) {
+                        for (let item of res.data.data.avatars) {
+                            if (item.id == this.charID) {
+                                this.character = item
+                                this.handleData()
+                                break
+                            }
+                        }
+                        // console.log(res.data.data.avatars)
+                        // this.characters = res.data.data.avatars
+                    }
+                })
+            },
+            handleData() {
+            
+                    if (this.character.element == "None") {
+                        this.charELement = "无属性"
+                    } else if (this.character.element == "Anemo") {
+                        this.charELement = "风"
+                    } else if (this.character.element == "Pyro") {
+                        this.charELement = "火"
+                    } else if (this.character.element == "Geo") {
+                        this.charELement = "岩"
+                    } else if (this.character.element == "Electro") {
+                        this.charELement= "雷"
+                    } else if (this.character.element == "Cryo") {
+                        this.charELement = "冰"
+                    } else if (this.character.element == "Hydro") {
+                        this.charELement= "水"
+                    } else {
+                        this.charELement= "草"
+                    }
+                
+            },
             // getLink() {
             //     axios.get('../../../../config/mapconfig.json').then(res => {
             //         if (res.status === 200) {

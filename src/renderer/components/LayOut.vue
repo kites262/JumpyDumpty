@@ -8,7 +8,7 @@
                         @click="() => (collapsed = !collapsed)" />
                 </a-layout-header>
 
-                <a-menu class="first-sider-color" theme="dark" mode="inline" :default-selected-keys="['4']">
+                <a-menu class="first-sider-color" theme="dark" mode="inline" :default-selected-keys="['3']">
                     <a-menu-item key="1" @click="ClickMenu(1)">
                         <a-icon type="team" />
                         <!-- <router-link to="roleindex">角色界面</router-link> -->
@@ -28,6 +28,11 @@
                         <a-icon type="search" />
                         <!-- <router-link to="mapset">地图设置</router-link> -->
                         <span>角色查询</span>
+                    </a-menu-item>
+                    <a-menu-item key="5" @click="ClickMenu(5)">
+                        <a-icon type="setting" />
+                        <!-- <router-link to="mapset">地图设置</router-link> -->
+                        <span>程序设置</span>
                     </a-menu-item>
                 </a-menu>
             </a-layout-sider>
@@ -65,6 +70,9 @@
                         break;
                     case 4:
                         this.$router.push('/infoquery')
+                        break;
+                    case 5:
+                        this.$router.push('/setting')
                 }
             }
         }

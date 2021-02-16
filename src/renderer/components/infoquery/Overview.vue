@@ -3,7 +3,7 @@
     <div id="third-content-ov">
         <span class="big-title">数据总览</span>
         <span class="title">总览</span>
-        <div id="overvie-wrapper">
+        <div id="overview-wrapper">
 
             <div class="card-wrapper">
                 <div class="card-header">
@@ -174,9 +174,9 @@
 </template>
 
 <script>
-    // const {
-    //     ipcRenderer
-    // } = window.require("electron");
+    const {
+        ipcRenderer
+    } = window.require("electron");
 
     import axios from 'axios'
     import vkeys from 'vkeys'
@@ -289,13 +289,36 @@
     }
 
     #third-content-ov {
+        overflow: auto;
         padding: 50px;
         padding-top: 30px;
         color: #404040;
         font-size: 14px;
+        height: 100%;
+        background-color: rgb(250,250,250);
+    }
+    #third-content-ov::-webkit-scrollbar {
+        width: 5px;
+        /*高宽分别对应横竖滚动条的尺寸*/
+        height: 1px;
     }
 
-    #overvie-wrapper {
+    #third-content-ov::-webkit-scrollbar-thumb {
+        /*滚动条里面小方块*/
+        border-radius: 10px;
+        box-shadow: inset 0 0 5px rgba(255, 151, 151, 0.2);
+        background: #e9b5b5;
+
+    }
+
+    #third-content-ov::-webkit-scrollbar-track {
+        /*滚动条里面轨道*/
+        box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        background: #EDEDED;
+    }
+
+    #overview-wrapper {
         display: flex;
         flex-wrap: wrap
     }

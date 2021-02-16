@@ -9,52 +9,48 @@
                 <div id="search-wrapper">
                     <a-input-search id="id-search" placeholder="请输入ID" enter-button @search="getInfo" />
                 </div>
-
-                <a-menu mode="inline" :default-selected-keys="['1']" :default-open-keys="['sub1']">
-
-                    <a-menu-item key="1" @click="()=>{
-                        this.$router.push('/infoquery/overview')
-                    }">
-                        <a-icon type="setting" />
-                        数据总览
-                    </a-menu-item>
-
-                    <a-sub-menu key="sub1">
-                        <span slot="title">
-                            <a-icon type="team" /><span> TA的角色</span></span>
-                        <a-menu-item v-for="(role,i) in characters" @click="getDetail(role.id)" :key="i"
-                            style="height: 64px; padding-left: 40px; position: relative;">
-
-                            <a-avatar class="char-img" :src="role.image" :size="48"
-                                :style="role.rarity==4?'background-color: #876ab1;':'background-color: #ca884e;'" />
-                            <div class="char-name"> {{role.name}}</div>
-                            <div class="char-fetter"> 好感度：{{role.fetter}}</div>
-
-                            <div class="char-element"> {{role.element}}</div>
-                            <div class="char-level"> Lv.{{role.level}}</div>
+                <div id="menu-wrapper">
+                    <a-menu mode="inline" :default-selected-keys="['1']" :default-open-keys="['sub1']">
+                        <a-menu-item key="1" @click="()=>{
+            this.$router.push('/infoquery/overview')
+        }">
+                            <a-icon type="read" />
+                            数据总览
                         </a-menu-item>
 
-                    </a-sub-menu>
-                    <!-- <a-menu-item key="2" @click="()=>{
-                  
-                    }">
-                        <a-icon type="interaction" />
-                        TA的角色
-                    </a-menu-item> -->
-                    <a-menu-item key="3" @click="()=>{
-                     
-                    }">
-                        <a-icon type="info-circle" />
-                        深渊战绩
-                    </a-menu-item>
+                        <a-sub-menu key="sub1">
+                            <span slot="title">
+                                <a-icon type="team" /><span> TA的角色</span></span>
+                            <a-menu-item v-for="(role,i) in characters" @click="getDetail(role.id)" :key="i"
+                                style="height: 64px; padding-left: 40px; position: relative;">
+
+                                <a-avatar class="char-img" :src="role.image" :size="48"
+                                    :style="role.rarity==4?'background-color: #876ab1;':'background-color: #ca884e;'" />
+                                <div class="char-name"> {{role.name}}</div>
+                                <div class="char-fetter"> 好感度：{{role.fetter}}</div>
+
+                                <div class="char-element"> {{role.element}}</div>
+                                <div class="char-level"> Lv.{{role.level}}</div>
+                            </a-menu-item>
+
+                        </a-sub-menu>
+
+                        <a-menu-item key="3" @click="()=>{
+         
+        }">
+                            <a-icon type="info-circle" />
+                            深渊战绩/未完成
+                        </a-menu-item>
 
 
-                </a-menu>
+                    </a-menu>
+                </div>
+
             </a-layout-sider>
             <a-layout id="third-content">
                 <my-title id="my-title"></my-title>
                 <a-layout-content :style="{ margin: '0', padding: '0', background: '#fff', minHeight: '280px' }">
-                    <router-view>Content</router-view>
+                    <router-view v-if="ifRouterView">Content</router-view>
                 </a-layout-content>
             </a-layout>
         </a-layout>
@@ -62,52 +58,78 @@
 </template>
 
 <script>
-    // const {
-    //     ipcRenderer
-    // } = window.require("electron");
+    const {
+        ipcRenderer
+    } = window.require("electron");
+
     import myTitle from './coms/Title.vue'
+    import axios from 'axios'
+
     export default {
         data() {
             return {
-                characters: [{
-                        "id": 10000023,
-                        "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Xiangling.png",
-                        "name": "香菱",
-                        "element": "火",
-                        "fetter": 6,
-                        "level": 80,
-                        "rarity": 4
-                    },
-                    {
-                        "id": 10000034,
-                        "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Noel.png",
-                        "name": "诺艾尔",
-                        "element": "岩",
-                        "fetter": 6,
-                        "level": 80,
-                        "rarity": 4
-                    }, {
-                        "id": 10000022,
-                        "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Venti.png",
-                        "name": "温迪",
-                        "element": "风",
-                        "fetter": 1,
-                        "level": 40,
-                        "rarity": 5
-                    },
-                ]
+                ifRouterView: true,
+                characters: [],
             }
+        },
+        mounted() {
+            this.readData()
+            this.handleIPC()
         },
         components: {
             myTitle
         },
         methods: {
+            readData() {
+                axios.get('../../../../data/userInfo.json').then(res => {
+                    if (res.status === 200) {
+                        // console.log(res.data.data.avatars)
+                        this.characters = res.data.data.avatars
+                        this.handleData()
+                    }
+                })
+            },
+            handleData() {
+                for (let item of this.characters) {
+                    console.log("handle")
+                    if (item.element == "None") {
+                        item.element = "无属性"
+                    } else if (item.element == "Anemo") {
+                        item.element = "风"
+                    } else if (item.element == "Pyro") {
+                        item.element = "火"
+                    } else if (item.element == "Geo") {
+                        item.element = "岩"
+                    } else if (item.element == "Electro") {
+                        item.element = "雷"
+                    } else if (item.element == "Cryo") {
+                        item.element = "冰"
+                    } else if (item.element == "Hydro") {
+                        item.element = "水"
+                    } else {
+                        item.element = "草"
+                    }
+                }
+            },
             getInfo(value) {
                 ipcRenderer.send("getInfo", value)
             },
             getDetail(charID) {
-                this.$router.push({path:'/infoquery/chardetail'})
-                // this.$router.push({path:'/infoquery/chardetail/'+charID})
+                // this.$router.push({
+                //     path: '/infoquery/chardetail'
+                // })
+                this.$router.push({
+                    path: '/infoquery/chardetail/' + charID
+                })
+                this.ifRouterView = false
+                this.$nextTick(() => {
+                    this.ifRouterView = true
+                })
+            },
+            handleIPC() {
+                ipcRenderer.on('getInfoFinished', () => {
+                    this.readData()
+                })
             }
         }
     };
@@ -125,6 +147,32 @@
 
     #id-search {
         height: 40px;
+    }
+
+    #menu-wrapper {
+        overflow: auto;
+        height: calc(100% - 72px);
+    }
+
+    #menu-wrapper::-webkit-scrollbar {
+        width: 5px;
+        /*高宽分别对应横竖滚动条的尺寸*/
+        height: 1px;
+    }
+
+    #menu-wrapper::-webkit-scrollbar-thumb {
+        /*滚动条里面小方块*/
+        border-radius: 10px;
+        box-shadow: inset 0 0 5px rgba(255, 151, 151, 0.2);
+        background: #e9b5b5;
+
+    }
+
+    #menu-wrapper::-webkit-scrollbar-track {
+        /*滚动条里面轨道*/
+        box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        background: #EDEDED;
     }
 
     .char-img {

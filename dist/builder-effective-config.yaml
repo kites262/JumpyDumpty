@@ -1,0 +1,14 @@
+directories:
+  output: dist
+  buildResources: build
+appId: com.genshin.jumpydumpty
+mac:
+  target:
+    - dmg
+    - zip
+win:
+  icon: src/assets/red.ico
+  target:
+    - nsis
+    - zip
+electronVersion: 8.5.0

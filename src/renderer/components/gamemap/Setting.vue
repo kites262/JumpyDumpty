@@ -72,9 +72,9 @@
 </template>
 
 <script>
-    // const {
-    //     ipcRenderer
-    // } = window.require("electron");
+    const {
+        ipcRenderer
+    } = window.require("electron");
 
     import axios from 'axios'
     import vkeys from 'vkeys'

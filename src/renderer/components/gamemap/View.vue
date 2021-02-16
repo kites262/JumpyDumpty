@@ -14,7 +14,10 @@
 
 <script>
     import axios from 'axios'
-    // import mapSet from '../../../config/mapconfig.json';
+
+    const {
+        ipcRenderer
+    } = window.require("electron");
 
     export default {
         data() {
@@ -24,6 +27,7 @@
         },
         mounted() {
             this.getLink()
+            this.getConfig()
         },
         methods: {
             getLink() {
@@ -33,9 +37,16 @@
                     }
                 })
             },
+            getConfig() {
+                axios.get('../../../../config/config.json').then(res => {
+                    if (res.status === 200) {
+                        if (res.data.ifAutoCookieButton) {
+                        ipcRenderer.send("getCookie");
+                        }
+                    }
+                })
+            },
         }
-
-
     };
 </script>
 

@@ -7,13 +7,16 @@ import MapSet from '../components/GameMap.vue'
 import DamageCal from '../components/DamageCal.vue'
 import RoleIndex from '../components/RoleIndex.vue'
 import InfoQuery from '../components/InfoQuery.vue'
+import Setting from '../components/Setting.vue'
 
 import View from '../components/gamemap/View.vue'
-import Setting from '../components/gamemap/Setting.vue'
+import MapSetting from '../components/gamemap/Setting.vue'
 import Instructions from '../components/gamemap/Instructions.vue'
 
 import Overview from '../components/infoquery/Overview.vue'
 import CharDetail from '../components/infoquery/CharDetail.vue'
+
+
 
 // 注册路由
 Vue.use(VueRouter)
@@ -53,7 +56,7 @@ const routes = [
                     component: View
                 }, {
                     path: 'setting',
-                    component: Setting
+                    component: MapSetting
                 }, {
                     path: 'instructions',
                     component: Instructions
@@ -64,16 +67,23 @@ const routes = [
                 // UserProfile 会被渲染在 User 的 <router-view> 中
                 path: 'infoquery',
                 component: InfoQuery,
-                redirect: 'infoquery/chardetail',
+                redirect: 'infoquery/overview',
                 children: [{
                     path: 'overview',
                     component: Overview
                 }, {
-                    // path: 'chardetail/:id',
-                    path: 'chardetail',
+                    path: 'chardetail/:id',
+                    // path: 'chardetail',
                     component: CharDetail,
                     // props: true,
                 }]
+            },
+            
+            {
+                // 当 /user/:id/profile 匹配成功，
+                // UserProfile 会被渲染在 User 的 <router-view> 中
+                path: 'setting',
+                component: Setting,
             },
         ]
     },

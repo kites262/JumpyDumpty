@@ -1,0 +1,270 @@
+{
+    "retcode": 0,
+    "message": "OK",
+    "data": {
+        "role": null,
+        "avatars": [
+            {
+                "id": 10000030,
+                "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Zhongli.png",
+                "name": "钟离",
+                "element": "Geo",
+                "fetter": 10,
+                "level": 90,
+                "rarity": 5
+            },
+            {
+                "id": 10000042,
+                "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Keqing.png",
+                "name": "刻晴",
+                "element": "Electro",
+                "fetter": 10,
+                "level": 81,
+                "rarity": 5
+            },
+            {
+                "id": 10000022,
+                "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Venti.png",
+                "name": "温迪",
+                "element": "Anemo",
+                "fetter": 10,
+                "level": 80,
+                "rarity": 5
+            },
+            {
+                "id": 10000031,
+                "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Fischl.png",
+                "name": "菲谢尔",
+                "element": "Electro",
+                "fetter": 10,
+                "level": 80,
+                "rarity": 4
+            },
+            {
+                "id": 10000041,
+                "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Mona.png",
+                "name": "莫娜",
+                "element": "Hydro",
+                "fetter": 10,
+                "level": 80,
+                "rarity": 5
+            },
+            {
+                "id": 10000032,
+                "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Bennett.png",
+                "name": "班尼特",
+                "element": "Pyro",
+                "fetter": 10,
+                "level": 70,
+                "rarity": 4
+            },
+            {
+                "id": 10000014,
+                "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Barbara.png",
+                "name": "芭芭拉",
+                "element": "Hydro",
+                "fetter": 9,
+                "level": 60,
+                "rarity": 4
+            },
+            {
+                "id": 10000021,
+                "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Ambor.png",
+                "name": "安柏",
+                "element": "Pyro",
+                "fetter": 7,
+                "level": 80,
+                "rarity": 4
+            },
+            {
+                "id": 10000034,
+                "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Noel.png",
+                "name": "诺艾尔",
+                "element": "Geo",
+                "fetter": 5,
+                "level": 80,
+                "rarity": 4
+            },
+            {
+                "id": 10000025,
+                "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Xingqiu.png",
+                "name": "行秋",
+                "element": "Hydro",
+                "fetter": 5,
+                "level": 70,
+                "rarity": 4
+            },
+            {
+                "id": 10000023,
+                "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Xiangling.png",
+                "name": "香菱",
+                "element": "Pyro",
+                "fetter": 5,
+                "level": 50,
+                "rarity": 4
+            },
+            {
+                "id": 10000020,
+                "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Razor.png",
+                "name": "雷泽",
+                "element": "Electro",
+                "fetter": 4,
+                "level": 60,
+                "rarity": 4
+            },
+            {
+                "id": 10000037,
+                "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Ganyu.png",
+                "name": "甘雨",
+                "element": "Cryo",
+                "fetter": 3,
+                "level": 20,
+                "rarity": 5
+            },
+            {
+                "id": 10000027,
+                "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Ningguang.png",
+                "name": "凝光",
+                "element": "Geo",
+                "fetter": 2,
+                "level": 60,
+                "rarity": 4
+            },
+            {
+                "id": 10000039,
+                "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Diona.png",
+                "name": "迪奥娜",
+                "element": "Cryo",
+                "fetter": 2,
+                "level": 60,
+                "rarity": 4
+            },
+            {
+                "id": 10000015,
+                "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Kaeya.png",
+                "name": "凯亚",
+                "element": "Cryo",
+                "fetter": 2,
+                "level": 20,
+                "rarity": 4
+            },
+            {
+                "id": 10000043,
+                "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Sucrose.png",
+                "name": "砂糖",
+                "element": "Anemo",
+                "fetter": 1,
+                "level": 40,
+                "rarity": 4
+            },
+            {
+                "id": 10000024,
+                "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Beidou.png",
+                "name": "北斗",
+                "element": "Electro",
+                "fetter": 1,
+                "level": 21,
+                "rarity": 4
+            },
+            {
+                "id": 10000036,
+                "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Chongyun.png",
+                "name": "重云",
+                "element": "Cryo",
+                "fetter": 1,
+                "level": 21,
+                "rarity": 4
+            },
+            {
+                "id": 10000006,
+                "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Lisa.png",
+                "name": "丽莎",
+                "element": "Electro",
+                "fetter": 1,
+                "level": 20,
+                "rarity": 4
+            },
+            {
+                "id": 10000016,
+                "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Diluc.png",
+                "name": "迪卢克",
+                "element": "Pyro",
+                "fetter": 1,
+                "level": 20,
+                "rarity": 5
+            },
+            {
+                "id": 10000044,
+                "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Xinyan.png",
+                "name": "辛焱",
+                "element": "Pyro",
+                "fetter": 1,
+                "level": 20,
+                "rarity": 4
+            },
+            {
+                "id": 10000007,
+                "image": "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_PlayerGirl.png",
+                "name": "旅行者",
+                "element": "Geo",
+                "fetter": 0,
+                "level": 75,
+                "rarity": 5
+            }
+        ],
+        "stats": {
+            "active_day_number": 138,
+            "achievement_number": 223,
+            "win_rate": 0,
+            "anemoculus_number": 66,
+            "geoculus_number": 131,
+            "avatar_number": 23,
+            "way_point_number": 83,
+            "domain_number": 25,
+            "spiral_abyss": "12-3",
+            "precious_chest_number": 188,
+            "luxurious_chest_number": 65,
+            "exquisite_chest_number": 713,
+            "common_chest_number": 660
+        },
+        "city_explorations": [
+            {
+                "id": 1,
+                "level": 8,
+                "exploration_percentage": 1000,
+                "icon": "https://upload-bbs.mihoyo.com/game_record/genshin/city_icon/UI_ChapterIcon_Mengde.png",
+                "name": "蒙德"
+            },
+            {
+                "id": 2,
+                "level": 8,
+                "exploration_percentage": 953,
+                "icon": "https://upload-bbs.mihoyo.com/game_record/genshin/city_icon/UI_ChapterIcon_Liyue.png",
+                "name": "璃月"
+            }
+        ],
+        "world_explorations": [
+            {
+                "level": 12,
+                "exploration_percentage": 968,
+                "icon": "https://upload-bbs.mihoyo.com/game_record/genshin/city_icon/UI_ChapterIcon_Dragonspine.png",
+                "name": "龙脊雪山",
+                "type": "Offering"
+            },
+            {
+                "level": 8,
+                "exploration_percentage": 1000,
+                "icon": "https://upload-bbs.mihoyo.com/game_record/genshin/city_icon/UI_ChapterIcon_Mengde.png",
+                "name": "蒙德",
+                "type": "Reputation"
+            },
+            {
+                "level": 8,
+                "exploration_percentage": 953,
+                "icon": "https://upload-bbs.mihoyo.com/game_record/genshin/city_icon/UI_ChapterIcon_Liyue.png",
+                "name": "璃月",
+                "type": "Reputation"
+            }
+        ]
+    }
+}

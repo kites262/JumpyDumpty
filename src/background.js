@@ -4,6 +4,7 @@ const {
     ipcMain,
     Tray,
     Menu,
+
     globalShortcut
 } = require('electron')
 const addon = require('./build/Release/SwitchToGame.node');
@@ -15,11 +16,24 @@ const {
     initConfig,
     loadConfig,
     writeConfig,
+    writeMapConfig
 } = require('./main/opConfig')
 
 const {
     getUserInfo
 } = require('./main/getInfo')
+
+const {
+    getCookie,
+    writeCookie
+} = require('./main/getCookie')
+
+// const {
+//     getCookie
+// } = require('./main/getCookie');
+// const {
+//     config
+// } = require('vue/types/umd');
 
 
 
@@ -27,6 +41,7 @@ const {
 let win
 let willQuitApp = false
 let mapwin
+let config = {}
 let mapConfig = {
     link: "",
     hotKey: "",
@@ -36,13 +51,14 @@ let mapConfig = {
 
 
 
+
 function handleIPC() {
 
     ipcMain.on('createMap', () => {
         mapConfig.ifHotKey = true
         // writeIfHotKey(true),
         // mapConfig.ifSwitch = true
-        writeConfig(mapConfig)
+        writeMapConfig(mapConfig)
         createMap()
     })
     ipcMain.on('destroyMap', () => {
@@ -50,7 +66,7 @@ function handleIPC() {
         mapConfig.ifHotKey = false
         // writeIfHotKey(true),
         // mapConfig.ifSwitch = false
-        writeConfig(mapConfig)
+        writeMapConfig(mapConfig)
         if (mapwin != null) {
             destroyMap()
             console.log("destroy")
@@ -61,26 +77,35 @@ function handleIPC() {
     })
     ipcMain.on('writeMapUrl', (e, data) => {
         mapConfig.link = data
-        writeConfig(mapConfig)
+        writeMapConfig(mapConfig)
     })
     ipcMain.on('writeMapIfDelay', (e, data) => {
         mapConfig.ifDelay = data
-        writeConfig(mapConfig)
+        writeMapConfig(mapConfig)
         // writeIfDelay(data)
     })
     ipcMain.on('writeHotKey', (e, data) => {
         globalShortcut.unregister(mapConfig.hotKey)
         mapConfig.hotKey = data
-        writeConfig(mapConfig)
+        writeMapConfig(mapConfig)
         shotCutRegister()
         // writeIfDelay(data)
     })
-    ipcMain.on('getInfo', (e,data) => {
+    ipcMain.on('getInfo', (e, data) => {
         console.log(data)
-        getUserInfo(data,()=>{
+        getUserInfo(data, () => {
             e.reply('getInfoFinished')
         })
-
+    })
+    ipcMain.on('writeifAutoCookie', (e, data) => {
+        config.ifAutoCookieButton = data
+        writeConfig(config)
+    })
+    ipcMain.on('writeCookie', (e, data) => {
+        writeCookie(data)
+    })
+    ipcMain.on('getCookie', () => {
+        getCookie()
     })
 }
 
@@ -89,7 +114,7 @@ function createWindow() {
     win = new BrowserWindow({
         width: 1200,
         height: 800,
-        // frame: false,
+        frame: false,
         webPreferences: {
             nodeIntegration: true,
             webviewTag: true
@@ -222,8 +247,7 @@ if (!gotTheLock) {
 
         if (win.isMinimized()) {
             win.restore()
-        }
-        else if (!win.isVisible()) {
+        } else if (!win.isVisible()) {
             win.show()
             // win.setSkipTaskbar(true)
         }
@@ -234,6 +258,7 @@ if (!gotTheLock) {
         createWindow()
         initConfig(mapConfig, createMap, loadConfig) //加载设置，引用类型传参，加载后回调创建地图
         handleIPC()
+        // getCookie()
     })
 }
 
