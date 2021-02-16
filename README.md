@@ -20,7 +20,7 @@
 
 ## 使用：  
 v1.0.2已打包，解压直接运行：  
- `https://wws.lanzous.com/b01zxfq8j `
+https://wws.lanzous.com/b01zxfq8j
 密码:byo4
 
 ## 更新日志  
