@@ -15,7 +15,10 @@ import Instructions from '../components/gamemap/Instructions.vue'
 
 import Overview from '../components/infoquery/Overview.vue'
 import CharDetail from '../components/infoquery/CharDetail.vue'
-
+import SpiralAbyss from '../components/infoquery/SpiralAbyss.vue'
+import CombatReview from '../components/infoquery/spiralabyss/CombatReview.vue'
+import DataRanking from '../components/infoquery/spiralabyss/DataRanking.vue'
+import FloorDetail from '../components/infoquery/spiralabyss/FloorDetail.vue'
 
 
 // 注册路由
@@ -32,22 +35,16 @@ const routes = [
         component: LayOut,
         redirect: 'gamemap',
         children: [{
-                // 当 /user/:id/profile 匹配成功，
-                // UserProfile 会被渲染在 User 的 <router-view> 中
                 path: 'roleindex',
                 component: RoleIndex
             },
 
 
             {
-                // 当 /user/:id/profile 匹配成功，
-                // UserProfile 会被渲染在 User 的 <router-view> 中
                 path: 'damagecal',
                 component: DamageCal
             },
             {
-                // 当 /user/:id/profile 匹配成功，
-                // UserProfile 会被渲染在 User 的 <router-view> 中
                 path: 'gamemap',
                 component: MapSet,
                 redirect: 'gamemap/setting',
@@ -63,8 +60,6 @@ const routes = [
                 }]
             },
             {
-                // 当 /user/:id/profile 匹配成功，
-                // UserProfile 会被渲染在 User 的 <router-view> 中
                 path: 'infoquery',
                 component: InfoQuery,
                 redirect: 'infoquery/overview',
@@ -73,15 +68,30 @@ const routes = [
                     component: Overview
                 }, {
                     path: 'chardetail/:id',
-                    // path: 'chardetail',
                     component: CharDetail,
-                    // props: true,
+
+                }, {
+                    path: 'spiralabyss',
+                    component: SpiralAbyss,
+                    redirect: 'spiralabyss/combatreview',
+                    children: [{
+                        path: 'combatreview',
+                        component: CombatReview
+                    }, {
+                        path: 'dataranking/:value',
+                        // path: 'chardetail',
+                        component: DataRanking,
+                        // props: true,
+                    }, {
+                        path: 'floordetail/:value',
+                        // path: 'chardetail',
+                        component: FloorDetail,
+                        // props: true,
+                    }]
                 }]
             },
-            
+
             {
-                // 当 /user/:id/profile 匹配成功，
-                // UserProfile 会被渲染在 User 的 <router-view> 中
                 path: 'setting',
                 component: Setting,
             },
@@ -97,6 +107,7 @@ const router = new VueRouter({
     //ES6简写，等于routes：routes
     routes
 });
+
 
 //获取原型对象上的push函数
 const originalPush = VueRouter.prototype.push

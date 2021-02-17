@@ -4,6 +4,8 @@
 
  Electron + Vue + AntDesign
 
+ 新手尝试，还有很多不足的地方
+
 ## 功能：  
 
  - 热键资源地图

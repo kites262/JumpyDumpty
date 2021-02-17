@@ -65,10 +65,15 @@ function writeCharactersData(charactersInfo) {
         if (err) throw err
     })
 }
-
+function writeSpiralAbyssData(spiralAbyssInfo) {
+    fs.writeFile(path.resolve(__dirname, '../../../../data/spiralAbyssInfo.json'), JSON.stringify(spiralAbyssInfo, null, 4), (err) => {
+        if (err) throw err
+    })
+}
 module.exports = {
     // initRoleData,
     // loadRoleData,
     writeUserData,
-    writeCharactersData
+    writeCharactersData,
+    writeSpiralAbyssData
 }

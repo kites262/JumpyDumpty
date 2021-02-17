@@ -1695,16 +1695,16 @@
                 "level": 50,
                 "rarity": 4,
                 "weapon": {
-                    "id": 13405,
-                    "name": "决斗之枪",
-                    "icon": "https://upload-bbs.mihoyo.com/game_record/genshin/equip/UI_EquipIcon_Pole_Gladiator.png",
+                    "id": 13401,
+                    "name": "匣里灭辰",
+                    "icon": "https://upload-bbs.mihoyo.com/game_record/genshin/equip/UI_EquipIcon_Pole_Stardust.png",
                     "type": 13,
                     "rarity": 4,
-                    "level": 90,
-                    "promote_level": 6,
+                    "level": 40,
+                    "promote_level": 2,
                     "type_name": "长柄武器",
-                    "desc": "血红色的锋利长枪，过去是某位角斗士无比珍视的宝物。枪芒上曾沾染了无数野兽与人的鲜血。",
-                    "affix_level": 1
+                    "desc": "金龙缠绕的长枪，轻快锐利无比。大抵真能轻易屠龙。",
+                    "affix_level": 3
                 },
                 "reliquaries": [
                     {
@@ -1800,7 +1800,7 @@
                         "pos_name": "空之杯"
                     },
                     {
-                        "id": 80533,
+                        "id": 80534,
                         "name": "焦灼的魔女帽",
                         "icon": "https://upload-bbs.mihoyo.com/game_record/genshin/equip/UI_RelicIcon_15006_3.png",
                         "pos": 5,
@@ -2350,7 +2350,100 @@
                     "desc": "雕饰浮华的利刃，却丝毫不损它的柔韧与锋锐。破空之声有如龙吟。",
                     "affix_level": 1
                 },
-                "reliquaries": [],
+                "reliquaries": [
+                    {
+                        "id": 57443,
+                        "name": "教官的胸花",
+                        "icon": "https://upload-bbs.mihoyo.com/game_record/genshin/equip/UI_RelicIcon_10007_4.png",
+                        "pos": 1,
+                        "rarity": 4,
+                        "level": 0,
+                        "set": {
+                            "id": 2100071,
+                            "name": "教官",
+                            "affixes": [
+                                {
+                                    "activation_number": 2,
+                                    "effect": "元素精通提高80点。"
+                                },
+                                {
+                                    "activation_number": 4,
+                                    "effect": "触发元素反应后，队伍中所有角色的元素精通提高120点，持续8秒。"
+                                }
+                            ]
+                        },
+                        "pos_name": "生之花"
+                    },
+                    {
+                        "id": 57423,
+                        "name": "教官的羽饰",
+                        "icon": "https://upload-bbs.mihoyo.com/game_record/genshin/equip/UI_RelicIcon_10007_2.png",
+                        "pos": 2,
+                        "rarity": 4,
+                        "level": 0,
+                        "set": {
+                            "id": 2100071,
+                            "name": "教官",
+                            "affixes": [
+                                {
+                                    "activation_number": 2,
+                                    "effect": "元素精通提高80点。"
+                                },
+                                {
+                                    "activation_number": 4,
+                                    "effect": "触发元素反应后，队伍中所有角色的元素精通提高120点，持续8秒。"
+                                }
+                            ]
+                        },
+                        "pos_name": "死之羽"
+                    },
+                    {
+                        "id": 57412,
+                        "name": "教官的茶杯",
+                        "icon": "https://upload-bbs.mihoyo.com/game_record/genshin/equip/UI_RelicIcon_10007_1.png",
+                        "pos": 4,
+                        "rarity": 4,
+                        "level": 0,
+                        "set": {
+                            "id": 2100071,
+                            "name": "教官",
+                            "affixes": [
+                                {
+                                    "activation_number": 2,
+                                    "effect": "元素精通提高80点。"
+                                },
+                                {
+                                    "activation_number": 4,
+                                    "effect": "触发元素反应后，队伍中所有角色的元素精通提高120点，持续8秒。"
+                                }
+                            ]
+                        },
+                        "pos_name": "空之杯"
+                    },
+                    {
+                        "id": 57433,
+                        "name": "教官的帽子",
+                        "icon": "https://upload-bbs.mihoyo.com/game_record/genshin/equip/UI_RelicIcon_10007_3.png",
+                        "pos": 5,
+                        "rarity": 4,
+                        "level": 0,
+                        "set": {
+                            "id": 2100071,
+                            "name": "教官",
+                            "affixes": [
+                                {
+                                    "activation_number": 2,
+                                    "effect": "元素精通提高80点。"
+                                },
+                                {
+                                    "activation_number": 4,
+                                    "effect": "触发元素反应后，队伍中所有角色的元素精通提高120点，持续8秒。"
+                                }
+                            ]
+                        },
+                        "pos_name": "理之冠"
+                    }
+                ],
                 "constellations": [
                     {
                         "id": 151,

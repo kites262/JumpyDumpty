@@ -18,6 +18,13 @@
                             数据总览
                         </a-menu-item>
 
+                        <a-menu-item key="3" @click="()=>{
+                            this.$router.push('/infoquery/spiralabyss')
+        }">
+                            <a-icon type="info-circle" />
+                            深渊战绩
+                        </a-menu-item>
+                        
                         <a-sub-menu key="sub1">
                             <span slot="title">
                                 <a-icon type="team" /><span> TA的角色</span></span>
@@ -35,12 +42,7 @@
 
                         </a-sub-menu>
 
-                        <a-menu-item key="3" @click="()=>{
-         
-        }">
-                            <a-icon type="info-circle" />
-                            深渊战绩/未完成
-                        </a-menu-item>
+        
 
 
                     </a-menu>

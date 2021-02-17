@@ -7,7 +7,8 @@ const {
     // initRoleData,
     // loadRoleData,
     writeUserData,
-    writeCharactersData
+    writeCharactersData,
+    writeSpiralAbyssData
 } = require('./opInfoData')
 // var https = require('https');
 
@@ -34,6 +35,7 @@ function readCookie(callback){
     });
 }
 
+// 获取用户信息
 function getUserInfo(uid,callback) {
     readCookie(()=>{
         axios.get("https://api-takumi.mihoyo.com/game_record/genshin/api/index?server=" + getServer(uid) + "&role_id=" + uid, {
@@ -54,6 +56,7 @@ function getUserInfo(uid,callback) {
             // console.log(response.data)
             // console.log(response.data.words_result)
             if (response.data.retcode == 0) {
+                getSpiralAbyssInfo(uid)
                 handleInfo(uid,response,callback)
             } else {
                 console.log("getInfoERR:",response.data)
@@ -65,8 +68,47 @@ function getUserInfo(uid,callback) {
     })
   
 }
-// getCharactersInfo()
 
+// 获取深渊信息
+function getSpiralAbyssInfo(uid,callback) {
+    readCookie(()=>{
+        axios.get("https://api-takumi.mihoyo.com/game_record/genshin/api/spiralAbyss?server=" + getServer(uid) + "&role_id=" + uid + "&schedule_type=1", {
+            headers: {
+                'cookie': cookie,
+                'DS': getDS(),
+                'Origin': 'https://webstatic.mihoyo.com',
+                'x-rpc-app_version': '2.2.1',
+                'User-Agent': 'Mozilla/5.0 (Linux; Android 9; Unspecified Device) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/39.0.0.0 Mobile Safari/537.36 miHoYoBBS/2.2.0',
+                'x-rpc-client_type': '4',
+                'Referer': 'https://webstatic.mihoyo.com/app/community-game-records/index.html?v=6',
+                'Accept-Encoding': 'gzip, deflate',
+                'Accept-Language': 'zh-CN,en-US;q=0.8',
+                'X-Requested-With': 'com.mihoyo.hyperion',
+                'Accept': 'application/json, text/plain, */*',
+            },
+        }).then((response) => {
+            // console.log(response.data)
+            // console.log(response.data.words_result)
+            if (response.data.retcode == 0) {
+                // handleInfo(uid,response,callback)
+                writeSpiralAbyssData(response.data)
+            } else {
+                console.log("getSpiralAbyssInfoERR:",response.data)
+            }
+            // console.log(response.data)
+        }).catch((err) => {
+            console.log(err)
+        })
+    })
+}
+
+
+
+
+
+
+
+// 获取角色详情
 function getCharactersInfo(uid, characterIDs,callback) {
     roleInfoServer = getServer(uid)
     axios({
@@ -95,14 +137,15 @@ function getCharactersInfo(uid, characterIDs,callback) {
         writeCharactersData(response.data)
         // console.log("准备回调")
         callback()
-        // console.log(response.data.words_result)
-        // console.log(response.data.data.avatars.reliquaries)
-        // console.log(response.data.data.avatars.constellations)
     }, function (err) {
         console.log('err')
     })
 }
 
+
+
+
+// 将用户的所有角色id导出到数组，再获取该数组的所有角色详情
 function handleInfo(uid,res,callback) {
     let data = res.data
     let characterIDs = []

@@ -1,5 +1,5 @@
 <template>
-    <div id="third-content-dt">
+    <div id="third-content-dt"  v-if="ifReadFinished">
         <div id="constellations-list-wrapper">
 
             <div class="constellations-list-item" v-for="(item,i) in character.constellations" :key="i">
@@ -75,7 +75,7 @@
                     <span class="title">武器</span>
                     <a-popover title="武器描述" placement="left">
                         <template slot="content">
-                            <div class="grid-container-wrapper">
+                            <div class="grid-container-wrapper" style="max-width: 400px;">
                                 <div class="grid-container">
                                     {{character.weapon.desc}}
                                 </div>
@@ -412,21 +412,9 @@
 
     export default {
         // props:['charid'],
-        mounted() {
-
-            // this.getData()
-            // 正确的初始化方式
-        },
-        methods: {
-            getData() {
-
-            },
-            setData() {
-
-            }
-        },
         data() {
             return {
+                ifReadFinished:false,
                 charID: this.$route.params.id,
                 charELement: '',
                 charImg: {
@@ -452,17 +440,16 @@
                         for (let item of res.data.data.avatars) {
                             if (item.id == this.charID) {
                                 this.character = item
+                                this.ifReadFinished =true
                                 this.handleData()
                                 break
                             }
                         }
-                        // console.log(res.data.data.avatars)
-                        // this.characters = res.data.data.avatars
                     }
                 })
             },
             handleData() {
-            
+        
                     if (this.character.element == "None") {
                         this.charELement = "无属性"
                     } else if (this.character.element == "Anemo") {
@@ -482,13 +469,6 @@
                     }
                 
             },
-            // getLink() {
-            //     axios.get('../../../../config/mapconfig.json').then(res => {
-            //         if (res.status === 200) {
-            //             this.dataLink = "https://" + res.data.link
-            //         }
-            //     })
-            // },
         }
 
 
