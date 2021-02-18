@@ -19,6 +19,7 @@
  - 角色查询 
  
     刷新观测枢地图时，用Electron的webRequest功能拦截headers，获取cookie
+    
     查询的API和方法源自于GitHub上的各位大佬
 
 ## 使用：  
