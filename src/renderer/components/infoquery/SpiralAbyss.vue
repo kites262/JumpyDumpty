@@ -110,7 +110,7 @@
     /* #menu-wrapper{
         background-color: rgb(255, 22, 22);
     } */
-    #third-content-sa-wrapper {
+    #third-sider-wrapper {
         overflow: auto;
         /* padding-top: 40px; */
         /* margin-top: 40px; */
@@ -121,13 +121,13 @@
         background-color: rgb(255, 255, 255);
     }
 
-    #third-content-sa-wrapper::-webkit-scrollbar {
+    #third-sider-wrapper::-webkit-scrollbar {
         width: 5px;
         /*高宽分别对应横竖滚动条的尺寸*/
         height: 1px;
     }
 
-    #third-content-sa-wrapper::-webkit-scrollbar-thumb {
+    #third-sider-wrapper::-webkit-scrollbar-thumb {
         /*滚动条里面小方块*/
         border-radius: 10px;
         box-shadow: inset 0 0 5px rgba(255, 151, 151, 0.2);
@@ -135,7 +135,7 @@
 
     }
 
-    #third-content-sa-wrapper::-webkit-scrollbar-track {
+    #third-sider-wrapper::-webkit-scrollbar-track {
         /*滚动条里面轨道*/
         box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
         border-radius: 10px;

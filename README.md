@@ -21,7 +21,7 @@
     刷新观测枢地图时，用Electron的webRequest功能拦截headers，获取cookie
 
 ## 使用：  
-v1.0.2已打包，解压直接运行：  
+v1.0.3已打包，解压直接运行：  
 https://wws.lanzous.com/b01zxfq8j
 密码:byo4
 
@@ -41,3 +41,6 @@ https://wws.lanzous.com/b01zxfq8j
  - 增加角色查询
  - 可指定设置Cookie
  - 增加自动读取 刷新米游社观测枢地图 时的Cookie的功能
+ - 
+### v1.0.3
+ - 完善角色查询的深渊查询
