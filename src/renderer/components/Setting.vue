@@ -27,9 +27,9 @@
 </template>
 
 <script>
-    // const {
-    //     ipcRenderer
-    // } = window.require("electron");
+    const {
+        ipcRenderer
+    } = window.require("electron");
 
     import myTitle from './coms/Title.vue'
     import axios from 'axios'
