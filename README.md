@@ -29,7 +29,7 @@ v1.0.4已打包，解压直接运行：
 https://wws.lanzous.com/b01zxfq8j
 密码:byo4
 
-## 更新日志  
+## 更新日志：  
 
 
 ### v1.0.4
