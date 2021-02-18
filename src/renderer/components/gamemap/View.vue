@@ -1,14 +1,8 @@
 <template>
     <div style="height: 100%;">
-
-        <!-- <a-button type="primary" @click="getLink()">
-            Alt+E
-        </a-button> -->
-
         <!-- <iframe id="map-view" src="https://static-web.ghzs.com/cspage_pro/yuanshenMap.html#/"></iframe> -->
         <!-- <webview id="map-view" :src="dataLink"></webview> -->
         <webview id="map-view" :src="dataLink"></webview>
-        <!-- <iframe id="map-view" :src="dataLink"></iframe> -->
     </div>
 </template>
 
@@ -43,12 +37,12 @@
                     if (res.status === 200) {
                         if (res.data.ifAutoCookieButton) {
                             ipcRenderer.send("getCookie");
-                            // this.openNotification()
                         }
                     }
                 })
             },
             handleIPC() {
+                ipcRenderer.removeAllListeners('getCookieFinished')
                 ipcRenderer.once('getCookieFinished', () => {
                     axios.get('../../../../data/cookie.json').then(res => {
                         if (res.status === 200) {
