@@ -104,30 +104,28 @@
         box-sizing: border-box;
         padding-top: 40px;
         width: 100px;
+        overflow: auto;
         background-color: rgb(250, 250, 250);
     }
 
     /* #menu-wrapper{
         background-color: rgb(255, 22, 22);
     } */
-    #third-sider-wrapper {
+
+    #forth-content {
         overflow: auto;
-        /* padding-top: 40px; */
-        /* margin-top: 40px; */
-        color: #404040;
-        font-size: 14px;
-        height: 100%;
-        width: 100%;
-        background-color: rgb(255, 255, 255);
     }
 
-    #third-sider-wrapper::-webkit-scrollbar {
+    #forth-content::-webkit-scrollbar {
         width: 5px;
         /*高宽分别对应横竖滚动条的尺寸*/
         height: 1px;
     }
 
-    #third-sider-wrapper::-webkit-scrollbar-thumb {
+
+
+
+    #forth-content::-webkit-scrollbar-thumb {
         /*滚动条里面小方块*/
         border-radius: 10px;
         box-shadow: inset 0 0 5px rgba(255, 151, 151, 0.2);
@@ -135,11 +133,44 @@
 
     }
 
-    #third-sider-wrapper::-webkit-scrollbar-track {
+    #forth-content::-webkit-scrollbar-track {
         /*滚动条里面轨道*/
         box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
         border-radius: 10px;
         background: #EDEDED;
+    }
+
+
+    #third-sider::-webkit-scrollbar {
+        width: 5px;
+        /*高宽分别对应横竖滚动条的尺寸*/
+        height: 1px;
+    }
+
+
+
+
+    #third-sider::-webkit-scrollbar-thumb {
+        /*滚动条里面小方块*/
+        border-radius: 10px;
+        box-shadow: inset 0 0 5px rgba(255, 151, 151, 0.2);
+        background: #e9b5b5;
+
+    }
+
+    #third-sider::-webkit-scrollbar-track {
+        /*滚动条里面轨道*/
+        box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        background: #EDEDED;
+    }
+
+
+
+
+    #third-content-sa-wrapper {
+        width: 100%;
+        height: 100%;
     }
 
     #third-content-sa {
@@ -155,9 +186,7 @@
 </style>
 
 <script>
-    // const {
-    //     ipcRenderer
-    // } = window.require("electron");
+
 
     import axios from 'axios'
     import vkeys from 'vkeys'
@@ -170,7 +199,7 @@
         mounted() {
             this.getData()
             // 正确的初始化方式
-            // this.handleIPC()
+    
 
         },
         methods: {
@@ -178,6 +207,13 @@
                 axios.get('../../../../data/spiralAbyssInfo.json').then(res => {
                     if (res.status === 200) {
                         this.spiralAbyss = res.data.data
+                        if (res.data.data.total_battle_times == 0){
+                            this.$notification['warning']({
+                                    message: '注意',
+                                    description: '该玩家暂未进行本期深境螺旋挑战',
+                                    duration: 4.5,
+                                });
+                        }
                     }
                 })
             },
@@ -199,17 +235,12 @@
                     this.ifRouterView = true
                 })
             },
-            handleIPC() {
-                ipcRenderer.on('getInfoFinished', () => {
-                    this.getConfig()
-                })
-            }
         },
         data() {
             return {
                 ifRouterView: true,
-                spiralAbyss: {
-                }
+                spiralAbyss: {}
+               
             }
 
         },

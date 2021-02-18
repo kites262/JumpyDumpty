@@ -2,10 +2,11 @@
     <div id="forth-content-dr">
         <span class="big-title">{{rankingName}}</span>
 
-        <div id="ranking-cards-wrapper" v-if="rankingID=='reveal_rank'">
+        <div id="ranking-cards-wrapper">
+            <a-empty v-if="spiralAbyss.total_battle_times==0"/>
             <a-row :gutter="[8,24]">
-                <div class="ranking-card-wrapper" v-for="(item,i) in ranking">
-                    <a-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8" :xxl="6">
+                <div class="ranking-card-wrapper" v-for="(item,i) in ranking" v-if="rankingID=='reveal_rank'">
+                    <a-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" :xxl="4">
                         <a-card class="char-card" hoverable>
                             <img class="char-card-icon" slot="cover" alt="example" :src="item.avatar_icon" />
 
@@ -14,7 +15,7 @@
                                     {{idToName[item.avatar_id]}}
                                 </div>
 
-                                <a-icon type="star" theme="twoTone" two-tone-color="orange" style="font-size: 13px;"
+                                <a-icon type="star" theme="filled"  style="font-size: 12px;color: orange;"
                                     v-for="(item,i) in item.rarity" :key="i" />
                                 <div class="char-card-right">
                                     {{item.value}}次
@@ -32,20 +33,20 @@
 
 
 
-        <div id="ranking-lists-wrapper">
+        <div id="ranking-lists-wrapper" v-if="rankingID!='reveal_rank' && spiralAbyss.total_battle_times!=0">
 
-            <a-list item-layout="horizontal" v-if="rankingID!='reveal_rank'">
+            <a-list item-layout="horizontal" >
                 <a-list-item v-for="(item,i) in ranking" :key="i" style="position: relative;">
                     <a-avatar :src="item.avatar_icon" :size="64" />
                     <div class="list-title">
                         {{idToName[item.avatar_id]}}
                     </div>
                     <div class="list-stars">
-                        <a-icon type="star" theme="twoTone" two-tone-color="orange" v-for="(item,i) in item.rarity" style="font-size: 12px;"
-                            :key="i" />
+                        <a-icon type="star" theme="filled"   v-for="(item,i) in item.rarity"
+                            style="font-size: 12px;color: orange;" :key="i" />
                     </div>
-                    <div class="list-container" >
-                        
+                    <div class="list-container">
+
                         <div class="list-value">
                             {{item.value}}
                             <span v-show="rankingID!='damage_rank' && rankingID!='take_damage_rank'">
@@ -109,63 +110,34 @@
     }
 
 
-    .char-img-bg {
-        width: 100%;
-        height: 100%;
-        background-position: calc(45% + 50px) top;
-        background-size: contain;
-        position: absolute;
-        right: 0px;
-        bottom: 0px;
-        background-repeat: no-repeat;
-        /* z-index: 2; */
-        opacity: 0.3;
-    }
-
-    .char-img-element {
-        width: 40%;
-        height: 45%;
-        background-size: contain;
-        background-repeat: no-repeat;
-        position: absolute;
-        bottom: 10px;
-        left: 80px;
-    }
-
-
 
     .char-card-icon {
         background-color: rgba(228, 228, 228, 0.363);
     }
 
     #ranking-cards-wrapper {
-        max-width: 960px;
+        max-width: 1080px;
     }
 
     .char-card {
-
-        min-width: 160px;
-        max-width: 240px;
-
+        min-width: 150px;
+        max-width: 180px;
     }
 
     .char-card-title {
         margin-bottom: 5px;
+        font-size: 16px;
+        font-weight: 500;
     }
 
 
     .char-card-right {
         position: absolute;
         right: 0px;
-        top: 25px;
-        font-size: 20px;
+        top: 26px;
+        font-size: 17px;
         font-weight: 500;
         text-align: right;
-    }
-
-    .char-card-title {
-        font-size: 18px;
-        font-weight: 500;
     }
 
     #forth-content-dr::-webkit-scrollbar {
@@ -173,27 +145,31 @@
         /*高宽分别对应横竖滚动条的尺寸*/
         height: 1px;
     }
-    #ranking-lists-wrapper{
+
+    #ranking-lists-wrapper {
         max-width: 760px;
         min-width: 230px;
         overflow: hidden;
     }
+
     .list-title {
         position: absolute;
         top: 30px;
         left: 80px;
         font-size: 16px;
     }
-    .list-stars{
+
+    .list-stars {
         position: absolute;
         top: 55px;
         left: 80px;
     }
-    .list-container{
+
+    .list-container {
         position: relative;
-      top: 20px;
-      font-size: 16px;
-      font-weight: 500;
+        top: 20px;
+        font-size: 16px;
+        font-weight: 500;
     }
 
     #forth-content-dr::-webkit-scrollbar-thumb {
@@ -225,12 +201,12 @@
                 ranking: [],
                 idToName: {},
                 charsInfo: [],
-                spiralAbyss: {}
-            }
+                spiralAbyss:{}
+                        }
         },
         mounted() {
             this.getData()
-            
+            // this.initData()
         },
         methods: {
             getData() {
@@ -239,7 +215,7 @@
                         this.charsInfo = res.data.data.avatars
                     }
                 })
-                  axios.get('../../../../data/spiralAbyssInfo.json').then(res => {
+                axios.get('../../../../data/spiralAbyssInfo.json').then(res => {
                     if (res.status === 200) {
                         this.spiralAbyss = res.data.data
                         this.initData()

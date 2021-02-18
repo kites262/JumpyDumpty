@@ -22,6 +22,8 @@
             </div>
             <span class="explain">登录或刷新米游社观测枢大地图(地图预览功能)时自动抓取Cookie</span>
 
+
+
         </div>
     </div>
 </template>
@@ -77,10 +79,9 @@
                 ipcRenderer.send("writeifAutoCookie", this.ifAutoCookieButton);
             },
             saveCookie() {
-                // console.log(value)
-                // console.log(this.cookieValue)
                 ipcRenderer.send("writeCookie", this.cookieValue);
-            }
+            },
+          
 
         }
     };

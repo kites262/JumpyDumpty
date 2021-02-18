@@ -18,7 +18,7 @@ let cookie = ""
 // let url = "https://api-takumi.mihoyo.com/game_record/genshin/api/index?server=" + getServer(uid) + "&role_id=" + uid;
 
 
-// getUserInfo()
+
 
 
 function readCookie(callback){
@@ -28,8 +28,10 @@ function readCookie(callback){
         } else {
             dataRead = JSON.parse(data.toString())
             cookie = dataRead.cookie
-            console.log("read-cookie-success")
-            callback()
+            // console.log("read-cookie-success")
+            if(callback){
+                callback()
+            }
             // return cookie
         }
     });
@@ -53,15 +55,15 @@ function getUserInfo(uid,callback) {
                 'Accept': 'application/json, text/plain, */*',
             },
         }).then((response) => {
-            // console.log(response.data)
-            // console.log(response.data.words_result)
             if (response.data.retcode == 0) {
+                writeUserData(response.data)
                 getSpiralAbyssInfo(uid)
                 handleInfo(uid,response,callback)
             } else {
+                writeUserData(response.data)
                 console.log("getInfoERR:",response.data)
+                callback()
             }
-            // console.log(response.data)
         }).catch((err) => {
             console.log(err)
         })
@@ -87,12 +89,10 @@ function getSpiralAbyssInfo(uid,callback) {
                 'Accept': 'application/json, text/plain, */*',
             },
         }).then((response) => {
-            // console.log(response.data)
-            // console.log(response.data.words_result)
             if (response.data.retcode == 0) {
-                // handleInfo(uid,response,callback)
                 writeSpiralAbyssData(response.data)
             } else {
+             
                 console.log("getSpiralAbyssInfoERR:",response.data)
             }
             // console.log(response.data)
@@ -135,7 +135,6 @@ function getCharactersInfo(uid, characterIDs,callback) {
         }
     }).then(function (response) {
         writeCharactersData(response.data)
-        // console.log("准备回调")
         callback()
     }, function (err) {
         console.log('err')
@@ -149,11 +148,10 @@ function getCharactersInfo(uid, characterIDs,callback) {
 function handleInfo(uid,res,callback) {
     let data = res.data
     let characterIDs = []
-    writeUserData(data)
     if (data.retcode != 0) {
         return (
             "Api报错，返回内容为：\r\n" +
-            res
+            data
         )
     } else {
         characterList = data.data.avatars

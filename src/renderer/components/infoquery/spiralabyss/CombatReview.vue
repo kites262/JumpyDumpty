@@ -113,9 +113,9 @@
 </style>
 
 <script>
-    // const {
-    //     ipcRenderer
-    // } = window.require("electron");
+    const {
+        ipcRenderer
+    } = window.require("electron");
 
     import axios from 'axios'
 
@@ -132,8 +132,6 @@
         },
         mounted() {
             this.getConfig()
-            // this.startTime = this.timestampToTime(this.spiralAbyss.start_time)
-            // this.endTime = this.timestampToTime(this.spiralAbyss.end_time)
         },
         methods: {
             getConfig() {

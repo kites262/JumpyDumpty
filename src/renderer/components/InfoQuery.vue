@@ -24,7 +24,7 @@
                             <a-icon type="info-circle" />
                             深渊战绩
                         </a-menu-item>
-                        
+
                         <a-sub-menu key="sub1">
                             <span slot="title">
                                 <a-icon type="team" /><span> TA的角色</span></span>
@@ -42,7 +42,7 @@
 
                         </a-sub-menu>
 
-        
+
 
 
                     </a-menu>
@@ -76,7 +76,7 @@
         },
         mounted() {
             this.readData()
-            this.handleIPC()
+
         },
         components: {
             myTitle
@@ -114,12 +114,15 @@
                 }
             },
             getInfo(value) {
-                ipcRenderer.send("getInfo", value)
+                if (value) {
+                    this.handleIPC()
+                    this.$router.push({
+                        path: '/infoquery'
+                    })
+                    ipcRenderer.send("getInfo", value)
+                }
             },
             getDetail(charID) {
-                // this.$router.push({
-                //     path: '/infoquery/chardetail'
-                // })
                 this.$router.push({
                     path: '/infoquery/chardetail/' + charID
                 })
@@ -129,8 +132,52 @@
                 })
             },
             handleIPC() {
-                ipcRenderer.on('getInfoFinished', () => {
-                    this.readData()
+                ipcRenderer.once('getInfoFinished', () => {
+                    axios.get('../../../../data/userInfo.json').then(res => {
+                        if (res.status === 200) {
+                            console.log("获取信息结束")
+                            if (res.data.retcode == 0) {
+                                this.$notification['success']({
+                                    message: '查询成功',
+                                    description: '已获取该用户所有信息',
+                                    duration: 4.5,
+                                })
+                            } else if (res.data.retcode == 10102) {
+                                this.$notification['error']({
+                                    message: '查询失败',
+                                    description: '该用户数据未公开',
+                                    duration: 4.5,
+                                });
+                            } else if (res.data.retcode == 1008) {
+                                this.$notification['error']({
+                                    message: '查询失败',
+                                    description: '用户信息不匹配，请检查UID是否输入正确',
+
+                                    duration: 4.5,
+                                });
+                            } else if (res.data.retcode == 10001) {
+                                this.$notification['error']({
+                                    message: '查询失败',
+                                    description: '请在程序设置中先设置你的Cookie，或设置的Cookie不正确',
+                                    duration: 4.5,
+                                });
+                            } else if (res.data.retcode == -1) {
+                                this.$notification['error']({
+                                    message: '查询失败',
+                                    description: '参数不正确',
+                                    duration: 4.5,
+                                });
+                            } else {
+                                this.$notification['error']({
+                                    message: '查询失败',
+                                    description: '未知错误，返回消息为' + JSON.stringify(res.data, null),
+                                    duration: 4.5,
+                                });
+                            }
+                            this.characters = res.data.data.avatars
+                            this.handleData()
+                        }
+                    })
                 })
             }
         }

@@ -4,8 +4,8 @@
 
 
         <span class="star-words">
-            <span style="font-size: 24px;">获得星数</span>
-            <a-icon type="star" theme="filled" style="font-size: 32px;color: rgb(255, 136, 136);"></a-icon>：
+            <span style="font-size: 22px;">获得渊星</span>
+            <a-icon type="star" theme="filled" style="font-size: 26px;color: rgb(255, 136, 136);"></a-icon>：
             {{floor.star}} / {{floor.max_star}}
         </span>
 
@@ -17,14 +17,14 @@
                 <div class="level-item">
                     <div class="level-title">第{{itemLevel.index}}间</div>
                     <div class="level-star" style="font-size: 0px;">
-                        <a-icon type="star" theme="filled" style="font-size: 32px;color: rgb(255, 136, 136);"
+                        <a-icon type="star" theme="filled" style="font-size: 26px;color: rgb(255, 136, 136);"
                             v-for="(itemLevelStar,iS1) in itemLevel.star" :key="iS1" />
-                        <a-icon type="star" theme="filled" style="font-size: 32px;color: rgba(153, 86, 86, 0.192);"
+                        <a-icon type="star" theme="filled" style="font-size: 26px;color: rgba(153, 86, 86, 0.192);"
                             v-for="(itemLevelStar,iS2) in itemLevel.max_star-itemLevel.star" :key="'max'+iS2" />
                     </div>
                     <div class="battle-wrapper" v-for="(itemBattle,iB) in itemLevel.battles" :key="iB">
                         <div class="battle-item">
-                            <div class="battle-time" style="margin-bottom: 5px;">
+                            <div class="battle-time" style="margin-bottom: 5px;margin-top: 15px;">
                                 {{timestampToTime(itemBattle.timestamp)}}
                             </div>
 
@@ -88,13 +88,13 @@
         display: inline-block;
         margin-top: 10px;
         font-weight: 300;
-        font-size: 28px;
+        font-size: 24px;
         line-height: 28px;
         margin-bottom: 30px;
     }
 
     #forth-content-fd {
-        padding: 50px;
+        padding: 25px;
         padding-top: 30px;
         position: relative;
         width: 100%;
@@ -106,9 +106,9 @@
 
     .level-wrapper {
         background-color: rgb(240, 240, 240);
-        padding: 40px;
+        padding: 15px;
         margin-bottom: 40px;
-        max-width: 1040px;
+        max-width: 780px;
     }
 
     .level-item {
@@ -116,14 +116,14 @@
     }
 
     .level-title {
-        font-size: 24px;
+        font-size: 22px;
         margin-bottom: 10px;
     }
 
     .level-star {
         position: absolute;
         right: 0px;
-        top: 0px;
+        top: 3px;
     }
 
 
@@ -136,10 +136,8 @@
     }
 
     .char-card {
-
         min-width: 150px;
-        max-width: 240px;
-
+        max-width: 180px;
     }
 
     .char-card-title {
@@ -151,14 +149,14 @@
         position: absolute;
         right: 0px;
         top: 0px;
-        font-size: 20px;
+        font-size: 18px;
         line-height: 20px;
         font-weight: 500;
         text-align: right;
     }
 
     .char-card-title {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 500;
     }
 
@@ -215,11 +213,10 @@
     import axios from 'axios'
 
     export default {
-        // props:['charid'],
         mounted() {
 
             this.getData()
-          
+        //   this.initData()
             // 正确的初始化方式
         },
         data() {
@@ -228,7 +225,7 @@
                 idToName: {},
                 floor: {},
                 charsInfo: [],
-                spiralAbyss: {}
+                spiralAbyss:{}
             }
         },
         methods: {

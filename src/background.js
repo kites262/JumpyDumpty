@@ -28,14 +28,6 @@ const {
     writeCookie
 } = require('./main/getCookie')
 
-// const {
-//     getCookie
-// } = require('./main/getCookie');
-// const {
-//     config
-// } = require('vue/types/umd');
-
-
 
 
 let win
@@ -56,16 +48,11 @@ function handleIPC() {
 
     ipcMain.on('createMap', () => {
         mapConfig.ifHotKey = true
-        // writeIfHotKey(true),
-        // mapConfig.ifSwitch = true
         writeMapConfig(mapConfig)
         createMap()
     })
     ipcMain.on('destroyMap', () => {
-        // writeIfHotKey(false)
         mapConfig.ifHotKey = false
-        // writeIfHotKey(true),
-        // mapConfig.ifSwitch = false
         writeMapConfig(mapConfig)
         if (mapwin != null) {
             destroyMap()
@@ -82,17 +69,14 @@ function handleIPC() {
     ipcMain.on('writeMapIfDelay', (e, data) => {
         mapConfig.ifDelay = data
         writeMapConfig(mapConfig)
-        // writeIfDelay(data)
     })
     ipcMain.on('writeHotKey', (e, data) => {
         globalShortcut.unregister(mapConfig.hotKey)
         mapConfig.hotKey = data
         writeMapConfig(mapConfig)
         shotCutRegister()
-        // writeIfDelay(data)
     })
     ipcMain.on('getInfo', (e, data) => {
-        console.log(data)
         getUserInfo(data, () => {
             e.reply('getInfoFinished')
         })
@@ -104,8 +88,10 @@ function handleIPC() {
     ipcMain.on('writeCookie', (e, data) => {
         writeCookie(data)
     })
-    ipcMain.on('getCookie', () => {
-        getCookie()
+    ipcMain.on('getCookie', (e) => {
+        getCookie(()=>{
+            e.reply('getCookieFinished')
+        })
     })
 }
 
@@ -114,7 +100,7 @@ function createWindow() {
     win = new BrowserWindow({
         width: 1200,
         height: 800,
-        // frame: false,
+        frame: false,
         webPreferences: {
             nodeIntegration: true,
             webviewTag: true

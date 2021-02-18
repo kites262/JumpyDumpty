@@ -9,29 +9,24 @@
                 </a-layout-header>
 
                 <a-menu class="first-sider-color" theme="dark" mode="inline" :default-selected-keys="['3']">
-                    <a-menu-item key="1" @click="ClickMenu(1)">
+                    <!-- <a-menu-item key="1" @click="ClickMenu(1)">
                         <a-icon type="team" />
-                        <!-- <router-link to="roleindex">角色界面</router-link> -->
                         <span>角色界面</span>
                     </a-menu-item>
                     <a-menu-item key="2" @click="ClickMenu(2)">
                         <a-icon type="calculator" />
-                        <!-- <router-link to="damagecal">伤害计算</router-link> -->
                         <span>伤害计算</span>
-                    </a-menu-item>
+                    </a-menu-item> -->
                     <a-menu-item key="3" @click="ClickMenu(3)">
                         <a-icon type="area-chart" />
-                        <!-- <router-link to="mapset">地图设置</router-link> -->
                         <span>快捷地图</span>
                     </a-menu-item>
                     <a-menu-item key="4" @click="ClickMenu(4)">
                         <a-icon type="search" />
-                        <!-- <router-link to="mapset">地图设置</router-link> -->
                         <span>角色查询</span>
                     </a-menu-item>
                     <a-menu-item key="5" @click="ClickMenu(5)">
                         <a-icon type="setting" />
-                        <!-- <router-link to="mapset">地图设置</router-link> -->
                         <span>程序设置</span>
                     </a-menu-item>
                 </a-menu>

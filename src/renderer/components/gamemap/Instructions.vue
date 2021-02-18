@@ -3,7 +3,7 @@
         <span class="title">介绍</span>
 
         <span class="note">
-            一个快捷的资源地图工具 /未完工
+            一个快捷的资源地图工具
 
         </span>
         <span class="note">
@@ -19,10 +19,7 @@
 </template>
 
 <script>
-    // const {
-    //     sendAxios
-    // } = require('../../../main/getUserInfo.js')
-    // import sendAxios from '../../../main/getUserInfo.js'
+
     export default {
         data() {
             return {
