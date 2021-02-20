@@ -2,12 +2,13 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import LayOut from '../components/LayOut.vue'
-import MapSet from '../components/GameMap.vue'
 
-import DamageCal from '../components/DamageCal.vue'
-import RoleIndex from '../components/RoleIndex.vue'
-import InfoQuery from '../components/InfoQuery.vue'
-import Setting from '../components/Setting.vue'
+import MapSet from '../components/menu/GameMap.vue'
+import DamageCal from '../components/menu/DamageCal.vue'
+import RoleIndex from '../components/menu/RoleIndex.vue'
+import InfoQuery from '../components/menu/InfoQuery.vue'
+import ArtifactsExport from '../components/menu/ArtifactsExport.vue'
+import Setting from '../components/menu/Setting.vue'
 
 import View from '../components/gamemap/View.vue'
 import MapSetting from '../components/gamemap/Setting.vue'
@@ -94,6 +95,9 @@ const routes = [
             {
                 path: 'setting',
                 component: Setting,
+            },   {
+                path: 'artifactsexport',
+                component: ArtifactsExport,
             },
         ]
     },

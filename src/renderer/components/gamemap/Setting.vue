@@ -7,8 +7,10 @@
 
         <span class="note">选择你使用的地图</span>
 
-        <div v-if="ifSelect">
-            <a-select id="map-select" :default-value="defaultVal" style="width: 256px" @change="handleChange">
+        <!-- <div v-if="ifSelect"> -->
+        <div>
+            <a-select id="map-select" default-value="mihoyo" :value="mapName" style="width: 256px"
+                @change="handleChange">
                 <a-select-option value="mihoyo">
                     米游社
                 </a-select-option>
@@ -27,8 +29,8 @@
             <div v-show="ifDefine">
                 <span class="note">输入你的指定的地图链接</span>
 
-                <a-input addon-before="Https://" default-value="mysite" v-model="linkValue" @change="saveLink"
-                    style="width: 100%" />
+                <a-input addon-before="Https://" placeholder="请输入的地图链接" default-value="mysite" v-model="linkValue"
+                    @change="saveLink" style="width: 100%" />
 
             </div>
         </div>
@@ -86,11 +88,11 @@
         data() {
             return {
                 hotKey: "Alt+E",
-                ifSelect: false,
+                // ifSelect: false,
                 ifDelayButton: true,
                 ifHotKeyButton: false,
                 // dataLink: "",
-                defaultVal: "mihoyo",
+                mapName: "mihoyo",
                 mihoyoLink: "webstatic.mihoyo.com/app/ys-map-cn/index.html?bbs_presentation_style=no_header&ts=1606133548270#/map/2?utm_source=bbs&utm_medium=mys&utm_campaign=slm&shown_types=&center=1675.00,-1190.00&zoom=-1.00",
                 ghzsLink: "static-web.ghzs.com/cspage_pro/yuanshenMap.html#/",
                 linkValue: "",
@@ -112,14 +114,14 @@
 
                         // this.linkValue = this.dataLink
                         if (this.linkValue == this.mihoyoLink) {
-                            this.defaultVal = "mihoyo"
+                            this.mapName = "mihoyo"
                         } else if (this.linkValue == this.ghzsLink) {
-                            this.defaultVal = "ghzs"
+                            this.mapName = "ghzs"
                         } else {
-                            this.defaultVal = "userDefined"
+                            this.mapName = "userDefined"
                             this.ifDefine = true
                         }
-                        this.ifSelect = true
+                        // this.ifSelect = true
                         if (res.data.ifHotKey) {
                             // 热键按钮打开
                             this.ifHotKeyButton = true
@@ -136,6 +138,7 @@
                 })
             },
             handleChange(value) {
+                this.mapName = value
                 if (value == "userDefined") {
                     this.ifDefine = true;
                 } else {

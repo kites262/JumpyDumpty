@@ -27,6 +27,10 @@
                     </a-menu-item>
                     <a-menu-item key="5" @click="ClickMenu(5)">
                         <a-icon type="setting" />
+                        <span>圣遗物导出</span>
+                    </a-menu-item>
+                    <a-menu-item key="6" @click="ClickMenu(6)">
+                        <a-icon type="setting" />
                         <span>程序设置</span>
                     </a-menu-item>
                 </a-menu>
@@ -67,6 +71,9 @@
                         this.$router.push('/infoquery')
                         break;
                     case 5:
+                        this.$router.push('/artifactsexport')
+                        break
+                    case 6:
                         this.$router.push('/setting')
                 }
             }

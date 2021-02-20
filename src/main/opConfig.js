@@ -88,7 +88,6 @@ function loadConfig(mapConfig, callback) {
 
 
 function writeMapConfig(mapConfig) {
-
     fs.writeFile(path.resolve(__dirname, '../../../../config/mapconfig.json'), JSON.stringify(mapConfig, null, 4), (err) => {
         if (err) throw err
     })
@@ -96,16 +95,21 @@ function writeMapConfig(mapConfig) {
 }
 
 function writeConfig(config) {
-
     fs.writeFile(path.resolve(__dirname, '../../../../config/config.json'), JSON.stringify(config, null, 4), (err) => {
         if (err) throw err
     })
 
+}
+function writeOcrConfig(config) {
+    fs.writeFile(path.resolve(__dirname, '../../../../config/ocrConfig.json'), JSON.stringify(config, null, 4), (err) => {
+        if (err) throw err
+    })
 }
 
 module.exports = {
     initConfig,
     loadConfig,
     writeMapConfig,
-    writeConfig
+    writeConfig,
+    writeOcrConfig
 }

@@ -4,19 +4,22 @@ const {
     ipcMain,
     Tray,
     Menu,
-
     globalShortcut
 } = require('electron')
-const addon = require('./build/Release/SwitchToGame.node');
+
+const addonSwitch = require('./build/Release/SwitchToGame.node');
+const addonCatch = require('./build/Release/ArtifactsCatch.node');
 const path = require('path')
 const gotTheLock = app.requestSingleInstanceLock()
+
 const fs = require('fs')
 
 const {
     initConfig,
     loadConfig,
     writeConfig,
-    writeMapConfig
+    writeMapConfig,
+    writeOcrConfig,
 } = require('./main/opConfig')
 
 const {
@@ -28,11 +31,16 @@ const {
     writeCookie
 } = require('./main/getCookie')
 
+const {
+    getAccessToken,
+    ocrArtifactDetails
+} = require('./main/ocr')
 
 
 let win
 let willQuitApp = false
 let mapwin
+let ocrConfig = {}
 let config = {}
 let mapConfig = {
     link: "",
@@ -45,7 +53,6 @@ let mapConfig = {
 
 
 function handleIPC() {
-
     ipcMain.on('createMap', () => {
         mapConfig.ifHotKey = true
         writeMapConfig(mapConfig)
@@ -89,10 +96,30 @@ function handleIPC() {
         writeCookie(data)
     })
     ipcMain.on('getCookie', (e) => {
-        getCookie(()=>{
+        getCookie(() => {
             e.reply('getCookieFinished')
         })
     })
+    ipcMain.on('artifactsCatch', (e) => {
+        console.log("ready-to-catch")
+        addonCatch.ArtifactsCatch()
+        console.log("catched")
+        ocrArtifactDetails()
+    })
+    ipcMain.on('writeApi', (e, value) => {
+        console.log("ready-to-write-api")
+        ocrConfig.api = value
+        writeOcrConfig(ocrConfig)
+    })
+    ipcMain.on('getAccessToken', (e, value1,value2) => {
+        console.log("ready-to-get-token")
+        getAccessToken(value1,value2)
+    })
+    ipcMain.on('saveAccessToken', (e, value) => {
+        console.log("save-access-token")
+        getAccessToken(value1,value2)
+    })
+  
 }
 
 function createWindow() {
@@ -100,7 +127,7 @@ function createWindow() {
     win = new BrowserWindow({
         width: 1200,
         height: 800,
-        frame: false,
+        // frame: false,
         webPreferences: {
             nodeIntegration: true,
             webviewTag: true
@@ -174,12 +201,12 @@ function createMap() {
             // globalShortcut.register(mapConfig.hotKey, () => {
             //     if (mapwin.isVisible()) {
             //         if (mapConfig.ifDelay) {
-            //             addon.SwitchToGame()
+            //             addonSwitch.SwitchToGame()
             //             setTimeout(() => {
             //                 mapwin.hide()
             //             }, 500)
             //         } else {
-            //             addon.SwitchToGame()
+            //             addonSwitch.SwitchToGame()
             //             mapwin.hide()
             //         }
             //     } else {
@@ -204,12 +231,12 @@ function shotCutRegister() {
     globalShortcut.register(mapConfig.hotKey, () => {
         if (mapwin.isVisible()) {
             if (mapConfig.ifDelay) {
-                addon.SwitchToGame()
+                addonSwitch.SwitchToGame()
                 setTimeout(() => {
                     mapwin.hide()
                 }, 500)
             } else {
-                addon.SwitchToGame()
+                addonSwitch.SwitchToGame()
                 mapwin.hide()
             }
         } else {
@@ -218,11 +245,6 @@ function shotCutRegister() {
     })
 }
 
-// app.on('ready', () => {
-//     createWindow()
-//     initConfig(mapConfig, createMap, loadConfig) //加载设置，引用类型传参，加载后回调创建地图
-//     handleIPC()
-// })
 
 
 if (!gotTheLock) {
