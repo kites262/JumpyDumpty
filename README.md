@@ -51,7 +51,7 @@
 ## 使用：  
 v1.0.4,v1.0.5beta已打包，解压直接运行：  
 https://wws.lanzous.com/b01zxfq8j
-密码:byo4
+密码:boom
 
 ## 更新日志：  
 
