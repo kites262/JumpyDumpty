@@ -26,7 +26,7 @@
 
  - 圣遗物OCR导出（测试中）
   
-    依赖：百度OCR的API，需要提供百度OCR的相关Key。获取方法：登录官网创建OCR应用即可[点我打开官网](https://login.bce.baidu.com/)
+    依赖：百度OCR的API，需要提供百度OCR的相关Key。获取方法：登录官网创建OCR应用即可,[点我打开官网](https://login.bce.baidu.com/)
  
     运行条件：
 
