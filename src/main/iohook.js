@@ -15,14 +15,15 @@ const {
 // const { set } = require('vue/types/umd')
 
 
-let ifOCR = false
+let ifOCRHotKey = false
+let ifOCRing = false
 let ifInit = false
 
 function ocrShotCutRegister(contents) {
     globalShortcut.register("Alt+R", () => {
         // 关闭热键OCR
-        if (ifOCR) {
-            ifOCR = false
+        if (ifOCRHotKey) {
+            ifOCRHotKey = false
 
             contents.send("ocrShotCutClose")
             console.log("close-ocr")
@@ -35,10 +36,14 @@ function ocrShotCutRegister(contents) {
                     ifMouseClick = true
                 });
                 ioHook.on('mouseup', () => {
-                    if (ifMouseClick) {
-                        console.log("ocr-working")
+                    if (ifMouseClick && !ifOCRing) {
+                        ifOCRing = true
                         contents.send("ocrShotCutWorking")
-                        setTimeout(ocrArtifac, 50);
+                        console.log("ocr-working")
+                        setTimeout(ocrArtifac, 50)
+                        setTimeout(() => {
+                            ifOCRing = false
+                        }, 50)
                     }
                 });
                 ioHook.on('mousedrag', () => {
@@ -46,7 +51,7 @@ function ocrShotCutRegister(contents) {
                 });
             }
             console.log("start-ocr")
-            ifOCR = true
+            ifOCRHotKey = true
             contents.send("ocrShotCutOpen")
             ioStart()
         }
@@ -59,9 +64,9 @@ function ocrArtifac() {
     console.log("ready-to-catch")
     addonCatch.ArtifactsCatch()
     console.log("catched")
-    
+
     ocrArtifactDetails()
-    
+
 }
 
 let ifMouseClick = false
