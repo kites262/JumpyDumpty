@@ -1,8 +1,6 @@
 const ioHook = require('iohook')
 
 const addonCatch = require('../build/Release/ArtifactsCatch.node')
-const path = require('path')
-
 
 
 const {
@@ -13,6 +11,8 @@ const {
 const {
     ocrArtifactDetails,
 } = require('./ocr')
+
+// const { set } = require('vue/types/umd')
 
 
 let ifOCR = false
@@ -38,7 +38,7 @@ function ocrShotCutRegister(contents) {
                     if (ifMouseClick) {
                         console.log("ocr-working")
                         contents.send("ocrShotCutWorking")
-                        ocrArtifac()
+                        setTimeout(ocrArtifac, 50);
                     }
                 });
                 ioHook.on('mousedrag', () => {
@@ -59,7 +59,9 @@ function ocrArtifac() {
     console.log("ready-to-catch")
     addonCatch.ArtifactsCatch()
     console.log("catched")
+    
     ocrArtifactDetails()
+    
 }
 
 let ifMouseClick = false
