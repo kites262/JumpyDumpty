@@ -4,7 +4,8 @@ const addonCatch = require('../build/Release/ArtifactsCatch.node')
 
 
 const {
-    globalShortcut
+    globalShortcut,
+    Notification
 } = require('electron')
 
 
@@ -19,13 +20,36 @@ let ifOCRHotKey = false
 let ifOCRing = false
 let ifInit = false
 
+// 显示系统通知
+function showNotification(res) {
+    if (res == "open") {
+        let notification = new Notification({
+            title: '已开启热键',
+            body: '请点击鼠标以抓取圣遗物'
+        })
+        notification.show()
+        setTimeout(() => {
+            notification.close()
+        }, 1200);
+    } else if (res == "close") {
+        let notification = new Notification({
+            title: '已关闭热键',
+            body: "可导出圣遗物"
+        })
+        notification.show()
+        setTimeout(() => {
+            notification.close()
+        }, 3500);
+    }
+}
+
 function ocrShotCutRegister(contents) {
     globalShortcut.register("Alt+R", () => {
         // 关闭热键OCR
         if (ifOCRHotKey) {
             ifOCRHotKey = false
-
             contents.send("ocrShotCutClose")
+            showNotification("close")
             console.log("close-ocr")
             ioStop()
         } else { // 开启
@@ -52,6 +76,7 @@ function ocrShotCutRegister(contents) {
             }
             console.log("start-ocr")
             ifOCRHotKey = true
+            showNotification("open")
             contents.send("ocrShotCutOpen")
             ioStart()
         }
@@ -65,7 +90,7 @@ function ocrArtifac() {
     addonCatch.ArtifactsCatch()
     console.log("catched")
 
-    ocrArtifactDetails()
+    ocrArtifactDetails(true)
 
 }
 

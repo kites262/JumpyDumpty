@@ -44,6 +44,9 @@ const {
 } = require('./main/iohook')
 
 
+
+
+
 let win
 let contents
 let willQuitApp = false
@@ -110,7 +113,7 @@ function handleIPC() {
         console.log("ready-to-catch")
         addonCatch.ArtifactsCatch()
         console.log("catched")
-        ocrArtifactDetails(() => {
+        ocrArtifactDetails(false,() => {
             e.reply("artifactsCatchFinished")
         })
     })
@@ -185,14 +188,19 @@ function createWindow() {
     win.loadFile('./src/renderer/index.html')
     contents = win.webContents
 }
-function ipcSendTo(lintenerVal){
+
+function ipcSendTo(lintenerVal) {
     contents.send(lintenerVal)
 }
-function test1(){
+
+function test1() {
     console.log("test1")
 }
 
-module.exports={test1}
+module.exports = {
+    test1
+}
+
 function reloadMap() {
     // 开关打开才重载入
     if (mapConfig.ifHotKey) {
@@ -294,7 +302,7 @@ if (!gotTheLock) {
         createWindow()
         initConfig(mapConfig, createMap, loadConfig) //加载设置，引用类型传参，加载后回调创建地图
         handleIPC()
-        ocrShotCutRegister(contents,"1")
+        ocrShotCutRegister(contents)
         // getCookie()
     })
 }
@@ -324,5 +332,3 @@ app.on('activate', () => {
     }
 });
 
-
-module.exports ={ipcSendTo,test1}

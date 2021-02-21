@@ -3,7 +3,8 @@ var qs = require('querystring');
 const path = require('path')
 const fs = require('fs')
 const {
-    clipboard
+    clipboard,
+    Notification
 } = require('electron')
 const axios = require('axios')
 const {
@@ -13,6 +14,28 @@ const {
     setToDetail
 } = require('./ocrData/Artifacts.json')
 
+// 显示系统通知
+function showNotification(res, msg) {
+    if (res == "success") {
+        let notification = new Notification({
+            title: 'OCR成功',
+            body: '请继续点击下一个圣遗物'
+        })
+        notification.show()
+        setTimeout(() => {
+            notification.close()
+        }, 1200);
+    } else if (res == "error") {
+        let notification = new Notification({
+            title: 'OCR失败',
+            body: msg
+        })
+        notification.show()
+        setTimeout(() => {
+            notification.close()
+        }, 4500);
+    }
+}
 
 
 // 获取AccessToken
@@ -57,7 +80,7 @@ function saveAccessToken(value) {
     })
 }
 
-function ocrArtifactDetails(callback) {
+function ocrArtifactDetails(ifShow, callback) {
     let img = clipboard.readImage()
     if (!img.isEmpty()) {
         let imgUrl = img.toDataURL()
@@ -85,14 +108,17 @@ function ocrArtifactDetails(callback) {
                             'content-type': 'application/x-www-form-urlencoded'
                         }
                     }).then(function (response) {
-                        if (response.data.error_code) {
-                            console.log(response.data)
-                        } else {
-                            handleOcrData(response.data, callback)
-                        }
+                        
+                         
+                            // console.log(response.data)
+                      
+                            handleOcrData(response.data, ifShow, callback)
+                        
 
                     }, function (err) {
-                        console.log('err', response.data)
+                        if (ifShow) {
+                            showNotification("error", "发送申请失败")
+                        }
                     })
                 }
             })
@@ -100,7 +126,7 @@ function ocrArtifactDetails(callback) {
     }
 }
 
-function handleOcrData(ocrData, callback) {
+function handleOcrData(ocrData, ifShow, callback) {
     // console.log("enter")
     let artifactData = {
         mainTag: {},
@@ -116,6 +142,30 @@ function handleOcrData(ocrData, callback) {
             console.log("write-ocrData")
         }
     })
+
+    // 字数过少，有问题
+    if(ocrData.words_result_num<8){
+        if (ifShow) {
+            showNotification("error", "OCR返回结果过少，请检查游戏分辨率和打开的界面是否正确")
+        }
+        callback()
+        return
+    }
+    // 返回了错误代码,有问题
+    if(ocrData.error_code){
+        if (ifShow) {
+            // 图片尺寸问题
+            if(ocrData.error_code==216202){
+                showNotification("error", "图片尺寸存在问题，请检查游戏是否保持前台")
+            }else if(ocrData.error_code==18){   //申请过快
+                showNotification("error", "OCR申请过于频繁，请减慢点击速度")
+            }
+        }
+        callback()
+        return
+    }
+    
+if(ocrData.words_result_num)
 
     for (let item of ocrData.words_result) {
         if (!ifOCRFinished) {
@@ -251,12 +301,15 @@ function handleOcrData(ocrData, callback) {
     artifactData.omit = false
 
 
-    writeOCRData(artifactData, callback)
+    writeOCRData(artifactData, ifShow, callback)
 }
 
-function writeOCRData(writeData, callback) {
+function writeOCRData(writeData, ifShow, callback) {
     fs.readFile(path.resolve(__dirname, '../../../../data/artifacts.json'), function (err, data) {
         if (err) {
+            if (ifShow) {
+                showNotification("error", "读取圣遗物记录失败")
+            }
             // throw err;
         } else {
             let dataSource = JSON.parse(data.toString())
@@ -294,6 +347,9 @@ function writeOCRData(writeData, callback) {
                 if (err) throw err
                 else {
                     console.log("write-artifacts")
+                    if (ifShow) {
+                        showNotification("success")
+                    }
                     if (callback) {
                         callback()
                     }

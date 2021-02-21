@@ -74,7 +74,7 @@
                     华丽宝箱数
                 </div>
                 <div class="card-container">
-                    {{precious_chest_number}}
+                    {{luxurious_chest_number}}
                 </div>
             </div>
             <div class="card-wrapper">
@@ -82,7 +82,7 @@
                     珍贵宝箱数
                 </div>
                 <div class="card-container">
-                    {{luxurious_chest_number}}
+                    {{precious_chest_number}}
                 </div>
             </div>
             <div class="card-wrapper">

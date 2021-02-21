@@ -138,16 +138,48 @@
                 }
                 ipcRenderer.send("writeifAutoCookie", this.ifAutoCookieButton);
             },
-       
+
 
             artifactsCatch() {
                 ipcRenderer.send("artifactsCatch");
                 ipcRenderer.once('artifactsCatchFinished', () => {
-                    this.$notification['success']({
-                        message: '抓取圣遗物成功',
-                        description: '已保存在当前目录的data/artifacts.json',
-                        duration: 4.5,
-                    });
+                    axios.get('../../../../data/ocrData.json').then(res => {
+                        if (res.status === 200) {
+                            if (res.data.words_result_num < 8) {
+                                this.$notification['error']({
+                                    message: '抓取圣遗物失败',
+                                    description: 'OCR返回结果过少，请检查游戏分辨率和打开的界面是否正确，返回的相关信息保存在目录的data文件夹下',
+                                    duration: 4.5,
+                                });
+                            } else if (res.data.error_code == '216202') {
+                                this.$notification['error']({
+                                    message: '抓取圣遗物失败',
+                                    description: '图片尺寸存在问题，请检查游戏是否保持前台，返回的相关信息保存在目录的data文件夹下',
+                                    duration: 4.5,
+                                });
+                            } else if (res.data.error_code == '18') {
+                                this.$notification['error']({
+                                    message: '抓取圣遗物失败',
+                                    description: 'OCR申请过于频繁，请减慢点击速度',
+                                    duration: 4.5,
+                                });
+                            } else if (res.data.error_code) {
+                                this.$notification['error']({
+                                    message: '抓取圣遗物失败',
+                                    description: '未知错误，返回消息为' + res.data.data,
+                                    duration: 4.5,
+                                });
+                            } else {
+                                this.$notification['success']({
+                                    message: '抓取圣遗物成功',
+                                    description: '已保存在当前目录的data/artifacts.json',
+                                    duration: 4.5,
+                                });
+                            }
+                        }
+                    })
+
+
                 })
             },
             artifactsReset() {
@@ -183,7 +215,7 @@
                                     description: this.accessTokenValue,
                                     duration: 4.5,
                                 });
-                            }else{
+                            } else {
                                 this.$notification['errror']({
                                     message: '获取AccessToken失败',
                                     description: res.data,
@@ -226,7 +258,7 @@
                         duration: 0.8,
                     });
                 })
-                
+
             },
             expoetToClicpBoard() {
                 ipcRenderer.send("expoetToClicpBoard")
@@ -239,7 +271,7 @@
                 })
 
             }
-            
+
         }
     };
 </script>
