@@ -33,11 +33,19 @@ const {
 
 const {
     getAccessToken,
-    ocrArtifactDetails
+    ocrArtifactDetails,
+    artifactsReset,
+    saveAccessToken,
+    expoetToClicpBoard
 } = require('./main/ocr')
+
+const {
+    ocrShotCutRegister
+} = require('./main/iohook')
 
 
 let win
+let contents
 let willQuitApp = false
 let mapwin
 let ocrConfig = {}
@@ -48,8 +56,6 @@ let mapConfig = {
     ifHotKey: false,
     ifDelay: true,
 }
-
-
 
 
 function handleIPC() {
@@ -81,7 +87,7 @@ function handleIPC() {
         globalShortcut.unregister(mapConfig.hotKey)
         mapConfig.hotKey = data
         writeMapConfig(mapConfig)
-        shotCutRegister()
+        mapShotCutRegister()
     })
     ipcMain.on('getInfo', (e, data) => {
         getUserInfo(data, () => {
@@ -104,22 +110,35 @@ function handleIPC() {
         console.log("ready-to-catch")
         addonCatch.ArtifactsCatch()
         console.log("catched")
-        ocrArtifactDetails()
+        ocrArtifactDetails(() => {
+            e.reply("artifactsCatchFinished")
+        })
     })
     ipcMain.on('writeApi', (e, value) => {
         console.log("ready-to-write-api")
         ocrConfig.api = value
         writeOcrConfig(ocrConfig)
     })
-    ipcMain.on('getAccessToken', (e, value1,value2) => {
-        console.log("ready-to-get-token")
-        getAccessToken(value1,value2)
+    ipcMain.on('getAccessToken', (e, value1, value2) => {
+        getAccessToken(value1, value2, () => {
+            e.reply("getAccessTokenFinished")
+        })
     })
     ipcMain.on('saveAccessToken', (e, value) => {
         console.log("save-access-token")
-        getAccessToken(value1,value2)
+        saveAccessToken(value)
     })
-  
+    ipcMain.on('artifactsReset', (e) => {
+        artifactsReset(() => {
+            e.reply("artifactsResetFinished")
+        })
+    })
+    ipcMain.on('expoetToClicpBoard', (e) => {
+        expoetToClicpBoard(() => {
+            e.reply("expoetToClicpBoardFinished")
+        })
+    })
+
 }
 
 function createWindow() {
@@ -127,7 +146,7 @@ function createWindow() {
     win = new BrowserWindow({
         width: 1200,
         height: 800,
-        // frame: false,
+        frame: false,
         webPreferences: {
             nodeIntegration: true,
             webviewTag: true
@@ -164,9 +183,16 @@ function createWindow() {
 
 
     win.loadFile('./src/renderer/index.html')
+    contents = win.webContents
+}
+function ipcSendTo(lintenerVal){
+    contents.send(lintenerVal)
+}
+function test1(){
+    console.log("test1")
 }
 
-
+module.exports={test1}
 function reloadMap() {
     // 开关打开才重载入
     if (mapConfig.ifHotKey) {
@@ -213,7 +239,7 @@ function createMap() {
             //         mapwin.show()
             //     }
             // })
-            shotCutRegister()
+            mapShotCutRegister()
 
             mapwin.on('closed', () => {
                 mapwin = null
@@ -222,12 +248,13 @@ function createMap() {
     });
 }
 
+
 function destroyMap() {
     mapwin.destroy()
     globalShortcut.unregister(mapConfig.hotKey)
 }
 
-function shotCutRegister() {
+function mapShotCutRegister() {
     globalShortcut.register(mapConfig.hotKey, () => {
         if (mapwin.isVisible()) {
             if (mapConfig.ifDelay) {
@@ -244,6 +271,7 @@ function shotCutRegister() {
         }
     })
 }
+
 
 
 
@@ -266,12 +294,18 @@ if (!gotTheLock) {
         createWindow()
         initConfig(mapConfig, createMap, loadConfig) //加载设置，引用类型传参，加载后回调创建地图
         handleIPC()
+        ocrShotCutRegister(contents,"1")
         // getCookie()
     })
 }
 
 
 app.whenReady().then(() => {})
+
+
+app.on('before-quit', () => {
+    ioExit()
+});
 
 
 // 当全部窗口关闭时退出。
@@ -289,3 +323,6 @@ app.on('activate', () => {
         createWindow();
     }
 });
+
+
+module.exports ={ipcSendTo,test1}

@@ -28,32 +28,50 @@ function initConfig(mapConfig, createMap, callback) {
                 ifAutoCookieButton: false,
             }
             let cookieWrite = {
-                cookie: "请输入你的Cookie",
+                cookie: "",
             }
-            configWrite = JSON.stringify(configWrite, null, 4)
-            mapConfigWrite = JSON.stringify(mapConfigWrite, null, 4)
-            cookieWrite = JSON.stringify(cookieWrite, null, 4)
+            let ocrConfigWrite={
+                api:'https://aip.baidubce.com/rest/2.0/ocr/v1/accurate_basic?access_token='
+            }
+            let artifactsWrite={
 
-            fs.writeFile(path.resolve(__dirname, '../../../../config/mapconfig.json'), mapConfigWrite, (err) => {
+            }
+           
+            
+
+            fs.writeFile(path.resolve(__dirname, '../../../../config/mapconfig.json'), JSON.stringify(mapConfigWrite, null, 4), (err) => {
                 if (err) throw err
                 else {
                     callback(mapConfig, createMap)
                 }
             })
-            fs.writeFile(path.resolve(__dirname, '../../../../config/config.json'), configWrite, (err) => {
+            fs.writeFile(path.resolve(__dirname, '../../../../config/config.json'),  JSON.stringify(configWrite, null, 4), (err) => {
                 if (err) throw err
                 else {
 
                 }
             })
+            fs.writeFile(path.resolve(__dirname, '../../../../config/ocrConfig.json'), JSON.stringify(ocrConfigWrite, null, 4), (err) => {
+                if (err) throw err
+                else {
+
+                }
+            })
+  
             fs.mkdir(path.resolve(__dirname, '../../../../data'), function (error) {
                 if (error) {
 
                 } else {
-                    fs.writeFile(path.resolve(__dirname, '../../../../data/cookie.json'), cookieWrite, (err) => {
+                    fs.writeFile(path.resolve(__dirname, '../../../../data/cookie.json'), JSON.stringify(cookieWrite, null, 4), (err) => {
                         if (err) throw err
                         else {
 
+                        }
+                    })
+                    fs.writeFile(path.resolve(__dirname, '../../../../data/artifacts.json'),JSON.stringify(artifactsWrite, null, 4), (err) => {
+                        if (err) throw err
+                        else {
+        
                         }
                     })
                 }

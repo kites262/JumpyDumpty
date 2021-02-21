@@ -26,7 +26,7 @@
                         <span>角色查询</span>
                     </a-menu-item>
                     <a-menu-item key="5" @click="ClickMenu(5)">
-                        <a-icon type="setting" />
+                        <a-icon type="eye" />
                         <span>圣遗物导出</span>
                     </a-menu-item>
                     <a-menu-item key="6" @click="ClickMenu(6)">

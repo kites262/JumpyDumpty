@@ -29,7 +29,7 @@
             <div v-show="ifDefine">
                 <span class="note">输入你的指定的地图链接</span>
 
-                <a-input addon-before="Https://" placeholder="请输入的地图链接" default-value="mysite" v-model="linkValue"
+                <a-input addon-before="Https://" placeholder="请输入你的地图链接" default-value="mysite" v-model="linkValue"
                     @change="saveLink" style="width: 100%" />
 
             </div>

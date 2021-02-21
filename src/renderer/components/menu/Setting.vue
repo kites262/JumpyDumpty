@@ -10,7 +10,7 @@
 
             <div style="margin-bottom: 5px">
                 <div id="cookie-input">
-                    <a-input default-value="请输入你的Cookie" v-model="cookieValue" @change="saveCookie"
+                    <a-input default-value="请输入你的Cookie" v-model="cookieValue" placeholder="请输入你的Cookie"  @change="saveCookie"
                         style="width: 100%" />
                 </div>
             </div>
@@ -38,7 +38,7 @@
     export default {
         data() {
             return {
-                cookieValue: '请输入你的Cookie',
+                cookieValue: '',
                 ifAutoCookieButton: false,
             }
         },
