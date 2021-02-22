@@ -36,9 +36,16 @@ function initConfig(mapConfig, createMap, callback) {
             let artifactsWrite={
 
             }
-           
+            let baiduTokenWrite={
+                access_token:""
+            }
             
-
+            fs.writeFile(path.resolve(__dirname, '../../../../config/baiduToken.json'), JSON.stringify(baiduTokenWrite, null, 4), (err) => {
+                if (err) throw err
+                else {
+                    callback(mapConfig, createMap)
+                }
+            })
             fs.writeFile(path.resolve(__dirname, '../../../../config/mapconfig.json'), JSON.stringify(mapConfigWrite, null, 4), (err) => {
                 if (err) throw err
                 else {
@@ -60,7 +67,6 @@ function initConfig(mapConfig, createMap, callback) {
   
             fs.mkdir(path.resolve(__dirname, '../../../../data'), function (error) {
                 if (error) {
-
                 } else {
                     fs.writeFile(path.resolve(__dirname, '../../../../data/cookie.json'), JSON.stringify(cookieWrite, null, 4), (err) => {
                         if (err) throw err
