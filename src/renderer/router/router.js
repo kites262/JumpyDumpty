@@ -21,6 +21,8 @@ import CombatReview from '../components/infoquery/spiralabyss/CombatReview.vue'
 import DataRanking from '../components/infoquery/spiralabyss/DataRanking.vue'
 import FloorDetail from '../components/infoquery/spiralabyss/FloorDetail.vue'
 
+import OCRMain from '../components/artifactsexport/OCRMain.vue'
+import OCRSetting from '../components/artifactsexport/OCRSetting.vue'
 
 // 注册路由
 Vue.use(VueRouter)
@@ -31,6 +33,7 @@ const routes = [
     //单个路由均为对象类型，path代表的是路径，component代表组件
 
     {
+
         path: '/',
         name: 'layout',
         component: LayOut,
@@ -95,12 +98,21 @@ const routes = [
             {
                 path: 'setting',
                 component: Setting,
-            },   {
+            }, {
                 path: 'artifactsexport',
                 component: ArtifactsExport,
+                redirect: 'artifactsexport/ocrsetting',
+                children: [{
+                    path: 'ocrsetting',
+                    component: OCRSetting
+                }, {
+                    path: 'ocrmain',
+                    component: OCRMain
+                }]
             },
         ]
     },
+
 
 
 

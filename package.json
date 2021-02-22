@@ -8,6 +8,7 @@
     "build": "webpack",
     "start": "electron .",
     "server": "webpack-dev-server",
+    "elserver":"webpack-dev-server electron .",
     "dist": "electron-builder --dir --win --x64",
     "package": "electron-packager ./ BoomBoom --out ./OutApp --version 1.0.5 --overwrite --icon=src/assets/red.ico"
   },

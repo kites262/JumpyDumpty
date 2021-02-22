@@ -132,7 +132,7 @@
         },
         "thunderSmoother": {
             "flower": "平雷之心",
-            "feather": " 平雷之羽",
+            "feather": "平雷之羽",
             "sand": "平雷之刻",
             "cup": "平雷之器",
             "head": "平雷之冠"
@@ -149,7 +149,7 @@
             "feather": "猎人青翠的箭羽",
             "sand": "翠绿猎人的笃定",
             "cup": "翠绿猎人的容器",
-            "head": " 翠绿的猎人之冠"
+            "head": "翠绿的猎人之冠"
         },
         "wandererTroupe": {
             "flower": "乐团的晨光",
@@ -174,7 +174,7 @@
         },
         "defenderWill": {
             "flower": "守护之花",
-            "feather": " 守护徽印",
+            "feather": "守护徽印",
             "sand": "守护座钟",
             "cup": "守护之皿",
             "head": "守护束带"
@@ -194,7 +194,7 @@
             "head": "赌徒的耳环"
         },
         "instructor": {
-            "flower": "教官的胸花 ",
+            "flower": "教官的胸花",
             "feather": "教官的羽饰",
             "sand": "教官的怀表",
             "cup": "教官的茶杯",

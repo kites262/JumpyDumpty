@@ -1,85 +1,42 @@
 <template>
     <div id="second-content-wrapper">
-        <myTitle></myTitle>
-        <div id="container">
+        
+        <a-layout id="second-content">
+            <a-layout-sider id="second-sider" :trigger="null" collapsible
+                style="max-width: 200px; width: 200px;flex:0 0 200px">
+                <a-menu mode="inline" :default-selected-keys="['1']">
 
-            <span class="big-title">圣遗物OCR导出</span>
-            <span class="title">API</span>
-            <span class="note">设置你的API</span>
-
-            <div>
-                <a-select id="api-select" default-value="accurate" :value="apiName" style="width: 256px"
-                    @change="handleApiChange">
-                    <a-select-option value="general">
-                        标准版
-                    </a-select-option>
-                    <a-select-option value="accurate">
-                        高精度版
-                    </a-select-option>
-                </a-select>
-            </div>
-
-            <!-- <a-divider /> -->
-
-            <div style="margin-bottom: 5px">
-                <div>
-                    <span class="note">输入你的API Key</span>
-                    <div class="defaule-input">
-                        <a-input placeholder="请输入API Key" v-model="apiKeyValue" style="width: 100%" />
-                    </div>
-
-                </div>
-            </div>
-
-            <div style="margin-bottom: 5px">
-                <div>
-                    <span class="note">输入你的Secret Key</span>
-                    <div class="defaule-input">
-                        <a-input placeholder="请输入Secret Key" v-model="secretKeyValue" style="width: 100%" />
-                    </div>
+                    <a-menu-item key="1" @click="()=>{
+                        this.$router.push('/artifactsexport/ocrsetting')
+                    }">
+                        <a-icon type="setting" />
+                        API设置
+                    </a-menu-item>
+                    <a-menu-item key="2" @click="()=>{
+                        this.$router.push('/artifactsexport/ocrmain')
+                    }">
+                        <a-icon type="interaction" />
+                        圣遗物抓取
+                    </a-menu-item>
+                    <!-- <a-menu-item key="3" @click="()=>{
+                        this.$router.push('/artifactsexport/instructions')
+                    }">
+                        <a-icon type="info-circle" />
+                        功能说明
+                    </a-menu-item> -->
 
 
-                </div>
-            </div>
+                </a-menu>
+            </a-layout-sider>
+            <a-layout id="third-content">
+                <my-title id="my-title" style="margin:0;"></my-title>
+                <a-layout-content :style="{ margin: '0', padding: '0', background: '#fff', minHeight: '280px' }">
+                    <router-view>Content</router-view>
+                </a-layout-content>
+            </a-layout>
+        </a-layout>
 
-            <a-button type="primary" @click="getAccessToken" style="margin-bottom: 5px">
-                获取Access Token
-            </a-button>
-
-            <div style="margin-bottom: 5px">
-                <div class="defaule-input">
-                    <a-input placeholder="请输入你的Access Token" v-model="accessTokenValue" @change="saveAccessToken" />
-                </div>
-            </div>
-
-            <span class="explain">Access Token获取方法请自行参考百度OCR官网，此处填入API Key和Secret Key获取即可</span>
-
-            <!-- <span class="note">热键抓取开关</span>
-            <div class="hot-key-switch">
-                <a-switch @change="onAutoCookieSwitchChange" :checked="ifAutoCookieButton" />
-            </div> -->
-
-
-            <a-button type="primary" @click="artifactsCatch">
-                点我手动抓取屏幕并OCR
-            </a-button>
-
-            <a-button type="primary" @click="artifactsReset">
-                点我重置圣遗物
-            </a-button>
-
-            <a-button type="primary" @click="expoetToClicpBoard">
-                点我导出圣遗物json
-            </a-button>
-
-            <span class="title" style="display: block;margin-top: 24px;">热键</span>
-            <span class="note">圣遗物抓取热键</span>
-            <a-button type="primary">
-                Alt+R
-            </a-button>
-            <span class="explain">热键已注册，按下热键，逐个点击圣遗物即可。程序会自动捕捉鼠标点击事件并进行截图OCR识别。</span>
-            <span class="explain" style="margin: 0;">（自定义热键功能和浮窗提醒施工中...）</span>
-        </div>
+         
     </div>
 </template>
 
@@ -270,8 +227,8 @@
                     });
                 })
 
-            }
-
+            },
+      
         }
     };
 </script>
@@ -310,7 +267,13 @@
         min-width: 200px;
         overflow: hidden;
     }
-
+    #second-content{
+        height: 100%;
+    }
+    #second-sider{
+        height: 100%;
+        background-color: #fff;
+    }
     #second-content-wrapper {
         background-color: rgb(250, 250, 250);
         height: 100%;
@@ -344,5 +307,9 @@
     #container {
         padding-top: 20px;
         padding: 40px;
+    }
+    #my-title{
+        background-color: rgb(250,250,250);
+        margin-bottom: 0;
     }
 </style>

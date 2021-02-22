@@ -113,7 +113,7 @@ function handleIPC() {
         console.log("ready-to-catch")
         addonCatch.ArtifactsCatch()
         console.log("catched")
-        ocrArtifactDetails(false,() => {
+        ocrArtifactDetails(false, () => {
             e.reply("artifactsCatchFinished")
         })
     })
@@ -184,22 +184,12 @@ function createWindow() {
         win.isVisible() ? win.setSkipTaskbar(false) : win.setSkipTaskbar(true);
     })
 
-
+    // win.loadURL("http://localhost:8080")
     win.loadFile('./src/renderer/index.html')
     contents = win.webContents
 }
 
-function ipcSendTo(lintenerVal) {
-    contents.send(lintenerVal)
-}
 
-function test1() {
-    console.log("test1")
-}
-
-module.exports = {
-    test1
-}
 
 function reloadMap() {
     // 开关打开才重载入
@@ -331,4 +321,3 @@ app.on('activate', () => {
         createWindow();
     }
 });
-

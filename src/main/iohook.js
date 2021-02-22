@@ -13,6 +13,13 @@ const {
     ocrArtifactDetails,
 } = require('./ocr')
 
+
+const {
+    createFloatingWindow,
+    closeFloatingWindow
+} = require('./floatingWin')
+
+
 // const { set } = require('vue/types/umd')
 
 
@@ -27,7 +34,8 @@ function showNotification(res) {
             title: '已开启热键',
             body: '请点击鼠标以抓取圣遗物'
         })
-        notification.show()
+        // notification.show()
+        createFloatingWindow()
         setTimeout(() => {
             notification.close()
         }, 1200);
@@ -36,7 +44,8 @@ function showNotification(res) {
             title: '已关闭热键',
             body: "可导出圣遗物"
         })
-        notification.show()
+        // notification.show()
+        closeFloatingWindow()
         setTimeout(() => {
             notification.close()
         }, 3500);
