@@ -49,7 +49,7 @@ Electron + Vue + AntDesign
 
   注意事项：
 
-  - 暂时没处理圣遗物的等级和星数，导出的 json 可配合 worm 大佬的项目使用：[莫娜占卜铺](https://github.com/wormtql/genshin_artifact)，[官网](http://www.genshin.art/#/)
+  - 抓取保存在data/artifacts.json文件，暂时没处理圣遗物的等级和星数，导出的 json 可配合 worm 大佬的项目使用：[莫娜占卜铺](https://github.com/wormtql/genshin_artifact)，[官网](http://www.genshin.art/#/)
   - 快速抓取模式下可以进行鼠标拖动（可以随便拖动背包界面），仅鼠标点击会被判定为有效。
   - 不要尝试在同一个圣遗物的详细界面多次点击鼠标，会重复录入
   - 快速抓取模式下的点击不要太快，百度 api 默认限制 1 秒两次请求
