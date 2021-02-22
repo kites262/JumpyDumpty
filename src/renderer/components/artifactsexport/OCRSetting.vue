@@ -146,12 +146,7 @@
             },
 
             handleIPC() {
-                ipcRenderer.removeAllListeners('artifactsCatchFinished')
                 ipcRenderer.removeAllListeners('getAccessTokenFinished')
-                ipcRenderer.removeAllListeners('expoetToClicpBoardFinished')
-                ipcRenderer.removeAllListeners('artifactsResetFinished')
-                ipcRenderer.removeAllListeners('ocrShotCutOpen')
-                ipcRenderer.removeAllListeners('ocrShotCutClose')
 
             },
 

@@ -4,7 +4,7 @@ import VueRouter from 'vue-router'
 import LayOut from '../components/LayOut.vue'
 
 import MapSet from '../components/menu/GameMap.vue'
-import DamageCal from '../components/menu/DamageCal.vue'
+import Calculation from '../components/menu/Calculation.vue'
 import RoleIndex from '../components/menu/RoleIndex.vue'
 import InfoQuery from '../components/menu/InfoQuery.vue'
 import ArtifactsExport from '../components/menu/ArtifactsExport.vue'
@@ -12,7 +12,7 @@ import Setting from '../components/menu/Setting.vue'
 
 import View from '../components/gamemap/View.vue'
 import MapSetting from '../components/gamemap/Setting.vue'
-import Instructions from '../components/gamemap/Instructions.vue'
+import MapInstructions from '../components/gamemap/MapInstructions.vue'
 
 import Overview from '../components/infoquery/Overview.vue'
 import CharDetail from '../components/infoquery/CharDetail.vue'
@@ -23,6 +23,7 @@ import FloorDetail from '../components/infoquery/spiralabyss/FloorDetail.vue'
 
 import OCRMain from '../components/artifactsexport/OCRMain.vue'
 import OCRSetting from '../components/artifactsexport/OCRSetting.vue'
+import OCRInstructions from '../components/artifactsexport/OCRInstructions.vue'
 
 // 注册路由
 Vue.use(VueRouter)
@@ -45,8 +46,8 @@ const routes = [
 
 
             {
-                path: 'damagecal',
-                component: DamageCal
+                path: 'calculation',
+                component: Calculation
             },
             {
                 path: 'gamemap',
@@ -60,7 +61,7 @@ const routes = [
                     component: MapSetting
                 }, {
                     path: 'instructions',
-                    component: Instructions
+                    component: MapInstructions
                 }]
             },
             {
@@ -108,6 +109,9 @@ const routes = [
                 }, {
                     path: 'ocrmain',
                     component: OCRMain
+                },{
+                    path: 'ocrinstructions',
+                    component:OCRInstructions
                 }]
             },
         ]

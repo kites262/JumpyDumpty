@@ -8,26 +8,27 @@
                         @click="() => (collapsed = !collapsed)" />
                 </a-layout-header>
 
-                <a-menu class="first-sider-color" theme="dark" mode="inline" :default-selected-keys="['3']">
+                <a-menu class="first-sider-color" theme="dark" mode="inline" :default-selected-keys="['2']">
                     <!-- <a-menu-item key="1" @click="ClickMenu(1)">
                         <a-icon type="team" />
                         <span>角色界面</span>
-                    </a-menu-item>
-                    <a-menu-item key="2" @click="ClickMenu(2)">
-                        <a-icon type="calculator" />
-                        <span>伤害计算</span>
                     </a-menu-item> -->
-                    <a-menu-item key="3" @click="ClickMenu(3)">
+                   
+                    <a-menu-item key="2" @click="ClickMenu(2)">
                         <a-icon type="area-chart" />
                         <span>快捷地图</span>
                     </a-menu-item>
-                    <a-menu-item key="4" @click="ClickMenu(4)">
+                    <a-menu-item key="3" @click="ClickMenu(3)">
                         <a-icon type="search" />
                         <span>角色查询</span>
                     </a-menu-item>
-                    <a-menu-item key="5" @click="ClickMenu(5)">
+                    <a-menu-item key="4" @click="ClickMenu(4)">
                         <a-icon type="eye" />
                         <span>圣遗物导出</span>
+                    </a-menu-item>
+                    <a-menu-item key="5" @click="ClickMenu(5)">
+                        <a-icon type="calculator" />
+                        <span>莫娜占卜铺</span>
                     </a-menu-item>
                     <a-menu-item key="6" @click="ClickMenu(6)">
                         <a-icon type="setting" />
@@ -61,18 +62,19 @@
                     case 1:
                         // this.$router.push('/roleindex')
                         break;
+
                     case 2:
-                        // this.$router.push('/damagecal')
-                        break;
-                    case 3:
                         this.$router.push('/gamemap')
                         break;
-                    case 4:
+                    case 3:
                         this.$router.push('/infoquery')
                         break;
-                    case 5:
+                    case 4:
                         this.$router.push('/artifactsexport')
                         break
+                    case 5:
+                        this.$router.push('/calculation')
+                        break;
                     case 6:
                         this.$router.push('/setting')
                 }

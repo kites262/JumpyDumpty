@@ -1,6 +1,6 @@
 <template>
     <div id="second-content-wrapper">
-        
+
         <a-layout id="second-content">
             <a-layout-sider id="second-sider" :trigger="null" collapsible
                 style="max-width: 200px; width: 200px;flex:0 0 200px">
@@ -18,12 +18,12 @@
                         <a-icon type="interaction" />
                         圣遗物抓取
                     </a-menu-item>
-                    <!-- <a-menu-item key="3" @click="()=>{
-                        this.$router.push('/artifactsexport/instructions')
+                    <a-menu-item key="3" @click="()=>{
+                        this.$router.push('/artifactsexport/ocrinstructions')
                     }">
                         <a-icon type="info-circle" />
                         功能说明
-                    </a-menu-item> -->
+                    </a-menu-item>
 
 
                 </a-menu>
@@ -36,7 +36,7 @@
             </a-layout>
         </a-layout>
 
-         
+
     </div>
 </template>
 
@@ -96,104 +96,12 @@
                 ipcRenderer.send("writeifAutoCookie", this.ifAutoCookieButton);
             },
 
-
-            artifactsCatch() {
-                ipcRenderer.send("artifactsCatch");
-                ipcRenderer.once('artifactsCatchFinished', () => {
-                    axios.get('../../../../data/ocrData.json').then(res => {
-                        if (res.status === 200) {
-                            if (res.data.words_result_num < 8) {
-                                this.$notification['error']({
-                                    message: '抓取圣遗物失败',
-                                    description: 'OCR返回结果过少，请检查游戏分辨率和打开的界面是否正确，返回的相关信息保存在目录的data文件夹下',
-                                    duration: 4.5,
-                                });
-                            } else if (res.data.error_code == '216202') {
-                                this.$notification['error']({
-                                    message: '抓取圣遗物失败',
-                                    description: '图片尺寸存在问题，请检查游戏是否保持前台，返回的相关信息保存在目录的data文件夹下',
-                                    duration: 4.5,
-                                });
-                            } else if (res.data.error_code == '18') {
-                                this.$notification['error']({
-                                    message: '抓取圣遗物失败',
-                                    description: 'OCR申请过于频繁，请减慢点击速度',
-                                    duration: 4.5,
-                                });
-                            } else if (res.data.error_code) {
-                                this.$notification['error']({
-                                    message: '抓取圣遗物失败',
-                                    description: '未知错误，返回消息为' + res.data.data,
-                                    duration: 4.5,
-                                });
-                            } else {
-                                this.$notification['success']({
-                                    message: '抓取圣遗物成功',
-                                    description: '已保存在当前目录的data/artifacts.json',
-                                    duration: 4.5,
-                                });
-                            }
-                        }
-                    })
-
-
-                })
-            },
-            artifactsReset() {
-                ipcRenderer.send("artifactsReset");
-                ipcRenderer.once('artifactsResetFinished', () => {
-                    this.$notification['success']({
-                        message: '重置成功',
-                        description: '已清除所有圣遗物',
-                        duration: 4.5,
-                    });
-                })
-
-            },
-            handleApiChange(value) {
-                this.apiName = value
-                if (value == "accurate") {
-                    ipcRenderer.send("writeApi",
-                        "https://aip.baidubce.com/rest/2.0/ocr/v1/accurate_basic?access_token=")
-                } else {
-                    ipcRenderer.send("writeApi", "https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic?access_token=")
-                }
-            },
-            getAccessToken() {
-                ipcRenderer.send("getAccessToken",
-                    this.apiKeyValue, this.secretKeyValue)
-                ipcRenderer.once('getAccessTokenFinished', () => {
-                    axios.get('../../../../config/baiduToken.json').then(res => {
-                        if (res.status === 200) {
-                            if (res.data.access_token) {
-                                this.accessTokenValue = res.data.access_token
-                                this.$notification['success']({
-                                    message: '获取AccessToken成功',
-                                    description: this.accessTokenValue,
-                                    duration: 4.5,
-                                });
-                            } else {
-                                this.$notification['errror']({
-                                    message: '获取AccessToken失败',
-                                    description: res.data,
-                                    duration: 4.5,
-                                });
-                            }
-                        }
-                    })
-                })
-            },
-            saveAccessToken() {
-                ipcRenderer.send("saveAccessToken", this.accessTokenValue)
-            },
-
+  
+        
             handleIPC() {
-                ipcRenderer.removeAllListeners('artifactsCatchFinished')
-                ipcRenderer.removeAllListeners('getAccessTokenFinished')
-                ipcRenderer.removeAllListeners('expoetToClicpBoardFinished')
-                ipcRenderer.removeAllListeners('artifactsResetFinished')
                 ipcRenderer.removeAllListeners('ocrShotCutOpen')
                 ipcRenderer.removeAllListeners('ocrShotCutClose')
+                ipcRenderer.removeAllListeners('ocrShotCutWorking')
                 ipcRenderer.on('ocrShotCutOpen', () => {
                     this.$notification['success']({
                         message: '已开启热键',
@@ -209,7 +117,7 @@
                     });
                 })
                 ipcRenderer.on('ocrShotCutWorking', () => {
-                    this.$notification['success']({
+                    this.$notification['info']({
                         message: 'OCRing',
                         // description: '',
                         duration: 0.8,
@@ -217,18 +125,7 @@
                 })
 
             },
-            expoetToClicpBoard() {
-                ipcRenderer.send("expoetToClicpBoard")
-                ipcRenderer.once('expoetToClicpBoardFinished', () => {
-                    this.$notification['success']({
-                        message: '导出json成功',
-                        description: '详情请在剪贴板查看',
-                        duration: 4.5,
-                    });
-                })
-
-            },
-      
+        
         }
     };
 </script>
@@ -267,13 +164,16 @@
         min-width: 200px;
         overflow: hidden;
     }
-    #second-content{
+
+    #second-content {
         height: 100%;
     }
-    #second-sider{
+
+    #second-sider {
         height: 100%;
         background-color: #fff;
     }
+
     #second-content-wrapper {
         background-color: rgb(250, 250, 250);
         height: 100%;
@@ -308,8 +208,9 @@
         padding-top: 20px;
         padding: 40px;
     }
-    #my-title{
-        background-color: rgb(250,250,250);
+
+    #my-title {
+        background-color: rgb(250, 250, 250);
         margin-bottom: 0;
     }
 </style>

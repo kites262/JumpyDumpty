@@ -64,6 +64,12 @@ https://wws.lanzous.com/b01zxfq8j
 
 ## 更新日志：
 
+### v1.0.8
+
+- 引入了worm大佬的网站[莫娜占卜铺](https://github.com/wormtql/genshin_artifact)
+- 添加了啰嗦的文字说明
+- 修复了OCR数据处理时的个别问题
+  
 ### v1.0.7
 
 - 将圣遗物 OCR 时的消息反馈改成固定浮窗

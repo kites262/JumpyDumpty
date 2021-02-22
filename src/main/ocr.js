@@ -86,7 +86,7 @@ function saveAccessToken(value) {
             })
         } else {
             let tokenData = JSON.parse(data.toString())
-            tokenData[access_token] = value
+            tokenData.access_token = value
             fs.writeFile(path.resolve(__dirname, '../../../../config/baiduToken.json'), JSON.stringify(tokenData, null, 4), (err) => {
                 if (err) throw err
             })
@@ -99,42 +99,56 @@ function ocrArtifactDetails(ifShow, callback) {
     let img = clipboard.readImage()
     if (!img.isEmpty()) {
         let imgUrl = img.toDataURL()
-        let {
-            api
-        } = require('../../../../config/ocrConfig.json')
-        // console.log(imgUrl)
-        fs.writeFile(path.resolve(__dirname, '../../../../data/artifact.jpg'), Buffer.from(imgUrl.replace('data:image/png;base64,', ''), 'base64'), (err) => {
-            console.log('save-img-success')
-            let config = require('../../../../config/baiduToken.json')
-            let access_token = config["access_token"]
-            fs.readFile(path.resolve(__dirname, '../../../../data/artifact.jpg'), function (err, data) {
-                if (err) {
-                    throw err
-                } else {
-                    let image = data
-                    let imgData = Buffer.from(image).toString('base64');
-                    axios({
-                        url: api + access_token,
-                        method: 'post',
-                        data: qs.stringify({
-                            'image': imgData
-                        }),
-                        headers: {
-                            'content-type': 'application/x-www-form-urlencoded'
-                        }
-                    }).then(function (response) {
-                        handleOcrData(response.data, ifShow, callback)
-                    }, function (err) {
-                        if (ifShow) {
-                            artifactNotification.result = "error"
-                            artifactNotification.msg = "发送申请失败"
-                            sendMsgToFloatingWin(artifactNotification)
-                            // showNotification("error", "发送申请失败")
+
+        fs.readFile(path.resolve(__dirname, '../../../../config/ocrConfig.json'), function (err, resAPI) {
+            if (err) {
+                throw err
+            } else {
+                let api = JSON.parse(resAPI.toString()).api
+                // console.log("api:", api)
+                fs.writeFile(path.resolve(__dirname, '../../../../data/artifact.jpg'), Buffer.from(imgUrl.replace('data:image/png;base64,', ''), 'base64'), (err) => {
+                    console.log('save-img-success')
+                    fs.readFile(path.resolve(__dirname, '../../../../config/baiduToken.json'), function (err, resToken) {
+                        if (err) {
+                            throw err
+                        } else {
+                            let access_token = JSON.parse(resToken.toString()).access_token
+                            // console.log("token", access_token)
+                            fs.readFile(path.resolve(__dirname, '../../../../data/artifact.jpg'), function (err, data) {
+                                if (err) {
+                                    throw err
+                                } else {
+                                    let image = data
+                                    let imgData = Buffer.from(image).toString('base64');
+                                    axios({
+                                        url: api + access_token,
+                                        method: 'post',
+                                        data: qs.stringify({
+                                            'image': imgData
+                                        }),
+                                        headers: {
+                                            'content-type': 'application/x-www-form-urlencoded'
+                                        }
+                                    }).then(function (response) {
+                                        // console.log(response.data)
+
+                                        handleOcrData(response.data, ifShow, callback)
+                                    }, function (err) {
+                                        if (ifShow) {
+                                            artifactNotification.result = "error"
+                                            artifactNotification.msg = "发送申请失败"
+                                            sendMsgToFloatingWin(artifactNotification)
+                                            // showNotification("error", "发送申请失败")
+                                        }
+                                    })
+                                }
+                            })
                         }
                     })
-                }
-            })
+                })
+            }
         })
+        // console.log(imgUrl)
     }
 }
 
@@ -170,7 +184,10 @@ function handleOcrData(ocrData, ifShow, callback) {
             artifactNotification.msg = "OCR返回结果过少，请检查游戏分辨率和打开的界面是否正确"
             sendMsgToFloatingWin(artifactNotification)
         }
-        callback()
+        if (callback) {
+            callback()
+        }
+
         return
     }
     // 返回了错误代码,有问题
@@ -184,10 +201,16 @@ function handleOcrData(ocrData, ifShow, callback) {
             } else if (ocrData.error_code == 18) { //申请过快
                 artifactNotification.msg = "OCR申请过于频繁，请减慢点击速度"
                 // showNotification("error", "OCR申请过于频繁，请减慢点击速度")
+            } else if (ocrData.error_code == 110) { //token错误
+                artifactNotification.msg = "Access Token设置错误"
+            } else {
+                artifactNotification.msg = JSON.stringify(ocrData, null, 4)
             }
             sendMsgToFloatingWin(artifactNotification)
         }
-        callback()
+        if (callback) {
+            callback()
+        }
         return
     }
 
@@ -349,12 +372,12 @@ function handleOcrData(ocrData, ifShow, callback) {
                             if (String(normalTag.value).indexOf('.') >= 0) {
                                 if (normalTag.value < 0.022) {
                                     console.log(normalTag.value)
-                                    normalTag.value = ('1' + normalTag.value * 100) / 100
+                                    normalTag.value = parseFloat(('1' + normalTag.value * 100) / 100)
                                     console.log(normalTag.value)
                                     normalTagNotification.value = (normalTag.value * 100).toFixed(1) + "%"
                                 }
                             } else if (normalTag.value < 11) {
-                                normalTag.value = '1' + normalTag.value
+                                normalTag.value = parseInt('1' + normalTag.value)
 
                                 normalTagNotification.value = normalTag.value
                             }

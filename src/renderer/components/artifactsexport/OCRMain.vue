@@ -81,7 +81,6 @@
                 ipcRenderer.send("writeifAutoCookie", this.ifAutoCookieButton);
             },
 
-
             artifactsCatch() {
                 ipcRenderer.send("artifactsCatch");
                 ipcRenderer.once('artifactsCatchFinished', () => {
@@ -106,10 +105,16 @@
                                     description: 'OCR申请过于频繁，请减慢点击速度',
                                     duration: 4.5,
                                 });
+                            } else if (res.data.error_code == 110) {
+                                this.$notification['error']({
+                                    message: '抓取圣遗物失败',
+                                    description: 'Access Token设置错误',
+                                    duration: 4.5,
+                                });
                             } else if (res.data.error_code) {
                                 this.$notification['error']({
                                     message: '抓取圣遗物失败',
-                                    description: '未知错误，返回消息为' + res.data.data,
+                                    description: '未知错误，返回消息为' + JSON.stringify(res.data, null, 4),
                                     duration: 4.5,
                                 });
                             } else {
@@ -136,72 +141,12 @@
                 })
 
             },
-            handleApiChange(value) {
-                this.apiName = value
-                if (value == "accurate") {
-                    ipcRenderer.send("writeApi",
-                        "https://aip.baidubce.com/rest/2.0/ocr/v1/accurate_basic?access_token=")
-                } else {
-                    ipcRenderer.send("writeApi", "https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic?access_token=")
-                }
-            },
-            getAccessToken() {
-                ipcRenderer.send("getAccessToken",
-                    this.apiKeyValue, this.secretKeyValue)
-                ipcRenderer.once('getAccessTokenFinished', () => {
-                    axios.get('../../../../config/baiduToken.json').then(res => {
-                        if (res.status === 200) {
-                            if (res.data.access_token) {
-                                this.accessTokenValue = res.data.access_token
-                                this.$notification['success']({
-                                    message: '获取AccessToken成功',
-                                    description: this.accessTokenValue,
-                                    duration: 4.5,
-                                });
-                            } else {
-                                this.$notification['errror']({
-                                    message: '获取AccessToken失败',
-                                    description: res.data,
-                                    duration: 4.5,
-                                });
-                            }
-                        }
-                    })
-                })
-            },
-            saveAccessToken() {
-                ipcRenderer.send("saveAccessToken", this.accessTokenValue)
-            },
 
+  
             handleIPC() {
                 ipcRenderer.removeAllListeners('artifactsCatchFinished')
-                ipcRenderer.removeAllListeners('getAccessTokenFinished')
                 ipcRenderer.removeAllListeners('expoetToClicpBoardFinished')
                 ipcRenderer.removeAllListeners('artifactsResetFinished')
-                ipcRenderer.removeAllListeners('ocrShotCutOpen')
-                ipcRenderer.removeAllListeners('ocrShotCutClose')
-                ipcRenderer.on('ocrShotCutOpen', () => {
-                    this.$notification['success']({
-                        message: '已开启热键',
-                        description: '请点击鼠标以抓取圣遗物',
-                        duration: 4.5,
-                    });
-                })
-                ipcRenderer.on('ocrShotCutClose', () => {
-                    this.$notification['success']({
-                        message: '已关闭热键',
-                        description: '可导出圣遗物',
-                        duration: 4.5,
-                    });
-                })
-                ipcRenderer.on('ocrShotCutWorking', () => {
-                    this.$notification['success']({
-                        message: 'OCRing',
-                        // description: '',
-                        duration: 0.8,
-                    });
-                })
-
             },
             expoetToClicpBoard() {
                 ipcRenderer.send("expoetToClicpBoard")
