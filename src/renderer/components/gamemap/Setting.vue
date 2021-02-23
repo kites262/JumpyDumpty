@@ -202,7 +202,7 @@
             },
             sendKey() {
                 if (correctHotKey) {
-                    ipcRenderer.send("writeHotKey", this.hotKey);
+                    ipcRenderer.send("writeMapHotKey", this.hotKey);
                 } else {
                     axios.get('../../../../config/mapconfig.json').then(res => {
                         if (res.status === 200) {

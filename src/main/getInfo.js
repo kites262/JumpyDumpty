@@ -4,18 +4,16 @@ const path = require('path')
 const fs = require('fs')
 const crypto = require('crypto')
 const {
-    // initRoleData,
-    // loadRoleData,
     writeUserData,
     writeCharactersData,
     writeSpiralAbyssData
 } = require('./opInfoData')
-// var https = require('https');
 
-// let uid = "121922061"
+
+
 let mhyVersion = "2.2.1"
 let cookie = ""
-// let url = "https://api-takumi.mihoyo.com/game_record/genshin/api/index?server=" + getServer(uid) + "&role_id=" + uid;
+
 
 
 

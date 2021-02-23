@@ -27,6 +27,10 @@ const {
 } = require('./main/getInfo')
 
 const {
+    handleIPC
+} = require('./main/handleIPC')
+
+const {
     getCookie,
     writeCookie
 } = require('./main/getCookie')
@@ -40,7 +44,7 @@ const {
 } = require('./main/ocr')
 
 const {
-    ocrShotCutRegister
+    ocrHotKeyRegister
 } = require('./main/iohook')
 
 
@@ -51,7 +55,15 @@ let win
 let contents
 let willQuitApp = false
 let mapwin
-let ocrConfig = {}
+let ipcData = {
+    ocrConfig: {
+        api:'default',
+        hotKey:'default',
+        ifDereplication:'default'
+    }
+}
+
+
 let config = {}
 let mapConfig = {
     link: "",
@@ -61,7 +73,7 @@ let mapConfig = {
 }
 
 
-function handleIPC() {
+function handleIPCmain() {
     ipcMain.on('createMap', () => {
         mapConfig.ifHotKey = true
         writeMapConfig(mapConfig)
@@ -86,7 +98,7 @@ function handleIPC() {
         mapConfig.ifDelay = data
         writeMapConfig(mapConfig)
     })
-    ipcMain.on('writeHotKey', (e, data) => {
+    ipcMain.on('writeMapHotKey', (e, data) => {
         globalShortcut.unregister(mapConfig.hotKey)
         mapConfig.hotKey = data
         writeMapConfig(mapConfig)
@@ -119,8 +131,8 @@ function handleIPC() {
     })
     ipcMain.on('writeApi', (e, value) => {
         console.log("ready-to-write-api")
-        ocrConfig.api = value
-        writeOcrConfig(ocrConfig)
+        ipcData.ocrConfig.api = value
+        writeOcrConfig(ipcData.ocrConfig)
     })
     ipcMain.on('getAccessToken', (e, value1, value2) => {
         getAccessToken(value1, value2, () => {
@@ -141,6 +153,8 @@ function handleIPC() {
             e.reply("expoetToClicpBoardFinished")
         })
     })
+
+
 
 }
 
@@ -186,7 +200,7 @@ function createWindow() {
 
     // win.loadURL("http://localhost:8080")
     win.loadFile('./src/renderer/index.html')
-    contents = win.webContents
+    ipcData.contents = win.webContents
 }
 
 
@@ -290,9 +304,14 @@ if (!gotTheLock) {
     })
     app.on('ready', () => {
         createWindow()
-        initConfig(mapConfig, createMap, loadConfig) //加载设置，引用类型传参，加载后回调创建地图
-        handleIPC()
-        ocrShotCutRegister(contents)
+        initConfig(ipcData,mapConfig, createMap) //加载设置，引用类型传参，加载后回调创建地图
+        handleIPCmain()
+        handleIPC(ipcData)
+
+        setTimeout(() => {
+            ocrHotKeyRegister(ipcData)
+        }, 1000);
+        
         // getCookie()
     })
 }

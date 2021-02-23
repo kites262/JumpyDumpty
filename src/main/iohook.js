@@ -44,7 +44,7 @@ function showNotification(res) {
             title: '已关闭热键',
             body: "可导出圣遗物"
         })
-        // notification.show()
+        notification.show()
         closeFloatingWindow()
         setTimeout(() => {
             notification.close()
@@ -52,12 +52,14 @@ function showNotification(res) {
     }
 }
 
-function ocrShotCutRegister(contents) {
-    globalShortcut.register("Alt+R", () => {
+function ocrHotKeyRegister(ipcData) {
+    // 检测热键是否被注册
+    
+  globalShortcut.register(ipcData.ocrConfig.hotKey, () => {
         // 关闭热键OCR
         if (ifOCRHotKey) {
             ifOCRHotKey = false
-            contents.send("ocrShotCutClose")
+            ipcData.contents.send("ocrShotCutClose")
             showNotification("close")
             console.log("close-ocr")
             ioStop()
@@ -71,7 +73,7 @@ function ocrShotCutRegister(contents) {
                 ioHook.on('mouseup', () => {
                     if (ifMouseClick && !ifOCRing) {
                         ifOCRing = true
-                        contents.send("ocrShotCutWorking")
+                        ipcData.contents.send("ocrShotCutWorking")
                         console.log("ocr-working")
                         setTimeout(ocrArtifac, 50)
                         setTimeout(() => {
@@ -86,10 +88,12 @@ function ocrShotCutRegister(contents) {
             console.log("start-ocr")
             ifOCRHotKey = true
             showNotification("open")
-            contents.send("ocrShotCutOpen")
+            ipcData.contents.send("ocrShotCutOpen")
             ioStart()
         }
     })
+    
+  
 }
 
 
@@ -120,5 +124,5 @@ function ioExit() {
 }
 module.exports = {
     ioExit,
-    ocrShotCutRegister
+    ocrHotKeyRegister
 }

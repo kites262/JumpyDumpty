@@ -21,7 +21,9 @@
         <div class="title">
             运行条件：
         </div>
-
+        <span class="note">
+            国服版本（后续会适配其它）
+        </span>
         <span class="note">
             管理员权限(无权限只能手动抓取)
         </span>
@@ -48,9 +50,6 @@
         </span>
         <span class="note">
             快速抓取模式下可以进行鼠标拖动（可以随便拖动背包界面），仅鼠标点击会被判定为有效。
-        </span>
-        <span class="note" style="font-weight: 600;">
-            不要尝试在同一个圣遗物的详细界面多次点击鼠标，会重复录入
         </span>
         <span class="note">
             快速抓取模式下的点击不要太快，百度 api 默认限制 1 秒两次请求

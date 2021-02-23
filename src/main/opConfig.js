@@ -2,7 +2,7 @@ const path = require('path')
 const fs = require('fs')
 
 
-function initConfig(mapConfig, createMap, callback) {
+function initConfig(ipcData, mapConfig, createMap) {
 
     fs.mkdir(path.resolve(__dirname, '../../../../config'), function (error) {
         if (error) {
@@ -15,7 +15,7 @@ function initConfig(mapConfig, createMap, callback) {
             //     return false;
             // }
             // 文件夹已创建
-            callback(mapConfig, createMap)
+            loadConfig(ipcData, mapConfig, createMap)
         } else {
 
             let mapConfigWrite = {
@@ -30,29 +30,31 @@ function initConfig(mapConfig, createMap, callback) {
             let cookieWrite = {
                 cookie: "",
             }
-            let ocrConfigWrite={
-                api:'https://aip.baidubce.com/rest/2.0/ocr/v1/accurate_basic?access_token='
+            let ocrConfigWrite = {
+                api: 'https://aip.baidubce.com/rest/2.0/ocr/v1/accurate_basic?access_token=',
+                ifDereplication: true,
+                hotKey: "Alt+R"
             }
-            let artifactsWrite={
+            let artifactsWrite = {
 
             }
-            let baiduTokenWrite={
-                access_token:""
+            let baiduTokenWrite = {
+                access_token: ""
             }
-            
+
             fs.writeFile(path.resolve(__dirname, '../../../../config/baiduToken.json'), JSON.stringify(baiduTokenWrite, null, 4), (err) => {
                 if (err) throw err
                 else {
-                    callback(mapConfig, createMap)
+
                 }
             })
             fs.writeFile(path.resolve(__dirname, '../../../../config/mapconfig.json'), JSON.stringify(mapConfigWrite, null, 4), (err) => {
                 if (err) throw err
                 else {
-                    callback(mapConfig, createMap)
+
                 }
             })
-            fs.writeFile(path.resolve(__dirname, '../../../../config/config.json'),  JSON.stringify(configWrite, null, 4), (err) => {
+            fs.writeFile(path.resolve(__dirname, '../../../../config/config.json'), JSON.stringify(configWrite, null, 4), (err) => {
                 if (err) throw err
                 else {
 
@@ -64,22 +66,25 @@ function initConfig(mapConfig, createMap, callback) {
 
                 }
             })
-  
+
             fs.mkdir(path.resolve(__dirname, '../../../../data'), function (error) {
-                if (error) {
-                } else {
+                if (error) {} else {
                     fs.writeFile(path.resolve(__dirname, '../../../../data/cookie.json'), JSON.stringify(cookieWrite, null, 4), (err) => {
                         if (err) throw err
                         else {
 
                         }
                     })
-                    fs.writeFile(path.resolve(__dirname, '../../../../data/artifacts.json'),JSON.stringify(artifactsWrite, null, 4), (err) => {
+                    fs.writeFile(path.resolve(__dirname, '../../../../data/artifacts.json'), JSON.stringify(artifactsWrite, null, 4), (err) => {
                         if (err) throw err
                         else {
-        
+
                         }
                     })
+
+                    setTimeout(() => {
+                        loadConfig(ipcData, mapConfig, createMap)
+                    }, 0);
                 }
             })
 
@@ -89,20 +94,36 @@ function initConfig(mapConfig, createMap, callback) {
 
 }
 
-function loadConfig(mapConfig, callback) {
+function loadConfig(ipcData, mapConfig, callback) {
     // initConfig()
+
     let dataConfig = {}
-    fs.readFile(path.resolve(__dirname, '../../../../config/mapconfig.json'), function (err, data) {
+    fs.readFile(path.resolve(__dirname, '../../../../config/ocrConfig.json'), function (err, data) {
         if (err) {
             // throw err;
         } else {
+            console.log(ipcData, ipcData.ocrConfig)
             dataConfig = JSON.parse(data.toString())
+            ipcData.ocrConfig.api = dataConfig.api
+            ipcData.ocrConfig.hotKey = dataConfig.hotKey
+            ipcData.ocrConfig.ifDereplication = dataConfig.ifDereplication
 
-            mapConfig.link = dataConfig.link
-            mapConfig.hotKey = dataConfig.hotKey
-            mapConfig.ifHotKey = dataConfig.ifHotKey
-            mapConfig.ifDelay = dataConfig.ifDelay
-            if (dataConfig.ifHotKey) {
+
+        }
+    });
+
+    let mapDataConfig = {}
+    fs.readFile(path.resolve(__dirname, '../../../../config/mapconfig.json'), function (err, dataMapRead) {
+        if (err) {
+            // throw err;
+        } else {
+            mapDataConfig = JSON.parse(dataMapRead.toString())
+
+            mapConfig.link = mapDataConfig.link
+            mapConfig.hotKey = mapDataConfig.hotKey
+            mapConfig.ifHotKey = mapDataConfig.ifHotKey
+            mapConfig.ifDelay = mapDataConfig.ifDelay
+            if (mapDataConfig.ifHotKey) {
                 callback()
             }
             console.log(mapConfig)
@@ -124,6 +145,7 @@ function writeConfig(config) {
     })
 
 }
+
 function writeOcrConfig(config) {
     fs.writeFile(path.resolve(__dirname, '../../../../config/ocrConfig.json'), JSON.stringify(config, null, 4), (err) => {
         if (err) throw err

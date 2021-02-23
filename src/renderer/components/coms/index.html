@@ -11,7 +11,8 @@
 <body>
     <div id="app" class="win-wrapper">
         <div id="header">
-            <span v-if="ifReady">{{note}}</span>{{detailName}}
+            <span v-if="ifReady">{{note}}</span>
+            <span v-if="ifSuccess">{{detailName}}</span>
             <span v-if="!ifSuccess&&!ifReady">识别失败</span>
             <div></div>
         </div>
@@ -81,6 +82,7 @@
                             console.log(this.normalTags)
                         } else {
                             this.ifReady = false
+                            this.ifSuccess = false
                             this.msg=res.msg
                         }
 

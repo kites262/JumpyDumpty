@@ -2,6 +2,7 @@ var https = require('https');
 var qs = require('querystring');
 const path = require('path')
 const fs = require('fs')
+const crypto = require('crypto')
 const {
     clipboard,
     Notification
@@ -17,9 +18,7 @@ const {
 const {
     sendMsgToFloatingWin
 } = require('./floatingWin');
-const {
-    notification
-} = require('ant-design-vue');
+
 
 
 let artifactNotification = {
@@ -196,11 +195,9 @@ function handleOcrData(ocrData, ifShow, callback) {
             artifactNotification.result = "error"
             // 图片尺寸问题
             if (ocrData.error_code == 216202) {
-                artifactNotification.msg = "图片尺寸存在问题，请检查游戏是否保持前台"
-                // showNotification("error", "图片尺寸存在问题，请检查游戏是否保持前台")
+                artifactNotification.msg = "抓取不到图片，请检查游戏是否保持前台"
             } else if (ocrData.error_code == 18) { //申请过快
                 artifactNotification.msg = "OCR申请过于频繁，请减慢点击速度"
-                // showNotification("error", "OCR申请过于频繁，请减慢点击速度")
             } else if (ocrData.error_code == 110) { //token错误
                 artifactNotification.msg = "Access Token设置错误"
             } else {
@@ -368,7 +365,7 @@ function handleOcrData(ocrData, ifShow, callback) {
                                 normalTagNotification.value = normalTag.value
                             }
 
-                            // 检测有无把1给漏掉
+                            // 可能把1给漏掉
                             if (String(normalTag.value).indexOf('.') >= 0) {
                                 if (normalTag.value < 0.022) {
                                     console.log(normalTag.value)
@@ -408,10 +405,10 @@ function handleOcrData(ocrData, ifShow, callback) {
                     }
                 }
 
-                // 获取套装名字
+                // 获取套装名字,判断结束
                 for (let setNameItem in toSetName) {
                     if (item.words.indexOf(setNameItem) >= 0) {
-                        // 有的套装名字会包含在具体的名字上
+                        // 有的套装名字会包含在具体的名字上,防止提前结束
                         if (artifactData.position == null) {
                             continue
                         } else {
@@ -438,7 +435,6 @@ function handleOcrData(ocrData, ifShow, callback) {
             if (err) throw err
             else {
                 artifactNotification.result = "error"
-                // artifactNotification.msg="分析该圣遗物异常，请手动录入！"+JSON.stringify(ocrData.words_result, null, 4)
                 artifactNotification.msg = "分析该圣遗物异常，请手动录入！"
                 if (ifShow) {
                     sendMsgToFloatingWin(artifactNotification)
@@ -450,12 +446,12 @@ function handleOcrData(ocrData, ifShow, callback) {
         if (ifShow) {
             sendMsgToFloatingWin(artifactNotification)
         }
-        writeOCRData(artifactData, callback)
+        writeOCRData(artifactData, ifShow, callback)
     }
 }
 
 
-function writeOCRData(writeData, callback) {
+function writeOCRData(writeData, ifShow, callback) {
     fs.readFile(path.resolve(__dirname, '../../../../data/artifacts.json'), function (err, data) {
         if (err) {
             if (ifShow) {
@@ -463,47 +459,77 @@ function writeOCRData(writeData, callback) {
             }
             // throw err;
         } else {
-            let dataSource = JSON.parse(data.toString())
-            if (Object.keys(dataSource).length != 0) {
-                let maxId = 1
-                // 找到圣遗物列表最大ID
-                // console.log(typeof(dataSource),dataSource)
-                for (let itemName in dataSource) {
-                    if (dataSource[itemName].length == 0) {
-                        continue
+            fs.readFile(path.resolve(__dirname, '../../../../config/ocrConfig.json'), function (err, resIfd) {
+                if (err) {
+                    throw err
+                } else {
+                    let ifDereplication = JSON.parse(resIfd.toString()).ifDereplication
+                    let dataSource = JSON.parse(data.toString())
+                    if (Object.keys(dataSource).length != 0) {
+                        // dataSource[writeData.position].push(writeData)
                     } else {
-
-                        let temp = dataSource[itemName]
-                        if (temp[temp.length - 1].id > maxId) {
-                            maxId = temp[temp.length - 1].id
+                        // 初始化
+                        dataSource = {
+                            flower: [],
+                            feather: [],
+                            sand: [],
+                            cup: [],
+                            head: []
                         }
-
+                        // dataSource[writeData.position].push(writeData)
                     }
-                }
-                writeData.id = ++maxId
-                dataSource[writeData.position].push(writeData)
-            } else {
-                writeData.id = 1
-                // 初始化
-                dataSource = {
-                    flower: [],
-                    feather: [],
-                    sand: [],
-                    cup: [],
-                    head: []
-                }
-                dataSource[writeData.position].push(writeData)
-            }
-            fs.writeFile(path.resolve(__dirname, '../../../../data/artifacts.json'), JSON.stringify(dataSource, null, 4), (err) => {
-                if (err) throw err
-                else {
+                    // md5运算生成ID
+                    writeData.id = crypto.createHash('md5').update(JSON.stringify(writeData)).digest("hex")
 
-                    if (callback) {
-                        console.log("call-back")
-                        callback()
+                    // 去重复，比对md5
+                    if (ifDereplication) {
+                        for (let itemName in dataSource) {
+                            if (dataSource[itemName].length == 0) {
+                                continue
+                            } else {
+                                let temp = dataSource[itemName]
+                                for (let tempItem in temp) {
+                                    // 有重复的
+                                 
+                                    if (temp[tempItem].id == writeData.id) {
+
+                                        if (callback) {
+                                            // 很蠢的反馈方式，待重构
+                                            let writeCallBackData = {
+                                                error_code: 1000000
+                                            }
+                                            fs.writeFile(path.resolve(__dirname, '../../../../data/ocrData.json'), JSON.stringify(writeCallBackData, null, 4), (err) => {
+                                                if (err) throw err
+                                                else {}
+                                            })
+                                            callback()
+                                        }
+                                        if (ifShow) {
+                                            artifactNotification.result = "error"
+                                            artifactNotification.msg = "重复的圣遗物，本次录入无效"
+                                            sendMsgToFloatingWin(artifactNotification)
+                                        }
+                                        return
+                                    }
+                                }
+                            }
+                        }
                     }
+
+                    dataSource[writeData.position].push(writeData)
+
+                    fs.writeFile(path.resolve(__dirname, '../../../../data/artifacts.json'), JSON.stringify(dataSource, null, 4), (err) => {
+                        if (err) throw err
+                        else {
+                            if (callback) {
+                                console.log("call-back")
+                                callback()
+                            }
+                        }
+                    })
                 }
             })
+
         }
     });
 }

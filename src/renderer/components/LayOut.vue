@@ -13,14 +13,14 @@
                         <a-icon type="team" />
                         <span>角色界面</span>
                     </a-menu-item> -->
-                   
+
                     <a-menu-item key="2" @click="ClickMenu(2)">
                         <a-icon type="area-chart" />
                         <span>快捷地图</span>
                     </a-menu-item>
                     <a-menu-item key="3" @click="ClickMenu(3)">
                         <a-icon type="search" />
-                        <span>角色查询</span>
+                        <span>用户查询</span>
                     </a-menu-item>
                     <a-menu-item key="4" @click="ClickMenu(4)">
                         <a-icon type="eye" />
@@ -47,13 +47,19 @@
 
 </template>
 <script>
+    // const {
+    //     ipcRenderer
+    // } = window.require("electron");
+
     export default {
         data() {
             return {
                 collapsed: true,
             };
         },
-
+        mounted() {
+            this.handleIPC()
+        },
         methods: {
             ClickMenu(num) {
                 switch (num) {
@@ -78,7 +84,15 @@
                     case 6:
                         this.$router.push('/setting')
                 }
-            }
+            },
+            // handleIPC() {
+            //     ipcRenderer.on('ocrHotKeyConflict', () => {
+            //         this.error()
+            //     })
+            // },
+            // error() {
+            //     this.$message.error('热键已被注册，请更换其他热键');
+            // },
         }
     };
 </script>

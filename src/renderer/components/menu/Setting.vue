@@ -22,7 +22,13 @@
             </div>
             <span class="explain">登录或刷新米游社观测枢大地图(地图预览功能)时自动抓取Cookie</span>
 
-     
+            <a-divider />
+
+            <span class="title">关于</span>
+            <span class="note">本程序开源且免费，项目地址：https://github.com/ChanIok/JumpyDumpty</span>
+            <span class="note">问题可直接在GitHub或NGA反馈：https://bbs.nga.cn/read.php?tid=25647353&page=4#pid495479398Anchor</span>
+            <span class="explain">如果觉得有用，可以给个star，谢谢你</span>
+            
         </div>
     </div>
 </template>
